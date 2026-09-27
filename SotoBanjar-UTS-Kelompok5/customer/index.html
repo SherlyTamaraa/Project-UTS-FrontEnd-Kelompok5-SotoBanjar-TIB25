@@ -141,6 +141,168 @@
         </div>
     </section>
 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" style="width: 480px; max-width: 100vw;">
+        <div class="offcanvas-header bg-dark-green text-white">
+            <h5 class="offcanvas-title d-flex align-items-center gap-2">
+                <i class="fa-solid fa-motorcycle text-gold"></i> Form Pemesanan & Pengiriman
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column p-3">
+            <!-- Alert Khusus Jabodetabek -->
+            <div class="alert alert-warning py-2 px-3 small d-flex align-items-center mb-3">
+                <i class="fa-solid fa-circle-info text-warning me-2 fa-lg"></i>
+                <div>Layanan khusus <strong>Delivery Online (Jabodetabek)</strong>. Tidak melayani makan di tempat.</div>
+            </div>
+
+            <!-- Item Keranjang -->
+            <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-receipt me-1"></i> Rincian Menu</h6>
+            <div id="cart-items-container" class="pe-1 mb-3" style="max-height: 220px; overflow-y: auto;">
+                <div id="cart-empty-state" class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-bowl-food display-4 mb-2"></i>
+                    <p>Keranjang pesanan masih kosong.</p>
+                </div>
+            </div>
+
+            <!-- Form Data Pengiriman -->
+            <form id="checkout-form" class="border-top pt-3">
+                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Alamat Pengantaran</h6>
+                
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Nama Penerima *</label>
+                    <input type="text" id="cust-name" class="form-control form-control-sm" placeholder="Contoh: Budi Santoso" required>
+                </div>
+                
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Nomor Telepon / WhatsApp *</label>
+                    <input type="tel" id="cust-phone" class="form-control form-control-sm" placeholder="Contoh: 081234567890" required>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Wilayah Pengantaran (Jabodetabek) *</label>
+                    <select id="cust-city" class="form-select form-select-sm" required>
+                        <option value="" disabled selected>-- Pilih Kota Pengiriman --</option>
+                        <option value="Jakarta Pusat" data-ongkir="12000">Jakarta Pusat (Ongkir: Rp 12.000)</option>
+                        <option value="Jakarta Barat" data-ongkir="10000">Jakarta Barat (Ongkir: Rp 10.000)</option>
+                        <option value="Jakarta Selatan" data-ongkir="14000">Jakarta Selatan (Ongkir: Rp 14.000)</option>
+                        <option value="Jakarta Timur" data-ongkir="14000">Jakarta Timur (Ongkir: Rp 14.000)</option>
+                        <option value="Jakarta Utara" data-ongkir="10000">Jakarta Utara (Ongkir: Rp 10.000)</option>
+                        <option value="Bogor" data-ongkir="24000">Bogor (Kota / Kab) (Ongkir: Rp 24.000)</option>
+                        <option value="Depok" data-ongkir="18000">Depok (Ongkir: Rp 18.000)</option>
+                        <option value="Tangerang" data-ongkir="15000">Tangerang Kota (Ongkir: Rp 15.000)</option>
+                        <option value="Tangerang Selatan" data-ongkir="16000">Tangerang Selatan (Ongkir: Rp 16.000)</option>
+                        <option value="Bekasi" data-ongkir="18000">Bekasi (Kota / Kab) (Ongkir: Rp 18.000)</option>
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Alamat Lengkap *</label>
+                    <textarea id="cust-address" rows="2" class="form-control form-control-sm" placeholder="Nama Jalan, No. Rumah, RT/RW, Kelurahan, Kecamatan" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted mb-1">Patokan / Catatan Driver (Opsional)</label>
+                    <input type="text" id="cust-note" class="form-control form-control-sm" placeholder="Contoh: Pagar hitam depan musholla / Titip di lobby">
+                </div>
+
+                <!-- Pembayaran -->
+                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-wallet me-1"></i> Metode Pembayaran</h6>
+                <div class="mb-3">
+                    <select id="cust-payment" class="form-select form-select-sm">
+                        <option value="Tunai / COD">Tunai saat Pesanan Tiba (COD)</option>
+                        <option value="QRIS">QRIS (Gopay, OVO, Dana, ShopeePay, BCA)</option>
+                        <option value="Transfer Bank BCA">Transfer Bank BCA Virtual Account</option>
+                        <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
+                    </select>
+                </div>
+
+                <!-- Perhitungan Biaya -->
+                <div class="bg-light p-3 rounded-3 mb-3 border">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Subtotal Makanan</span>
+                        <span id="cart-subtotal">Rp 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Biaya Ongkos Kirim</span>
+                        <span id="cart-ongkir">Rp 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted mb-2">
+                        <span>Biaya Layanan & Pengemasan</span>
+                        <span id="cart-service">Rp 2.000</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold h5 text-dark-green border-top pt-2 mb-0">
+                        <span>Total Pembayaran</span>
+                        <span id="cart-total">Rp 0</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="place-order-btn" class="btn btn-gold w-100 py-2 fw-bold shadow-sm">
+                    <i class="fa-solid fa-paper-plane me-2"></i> Konfirmasi & Pesan Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Struk Online -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-body text-center p-4">
+                    <div class="text-success mb-3">
+                        <i class="fa-solid fa-circle-check display-3"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark-green">Pesanan Berhasil Diterima!</h4>
+                    <p class="text-muted small">Nomor Order: <strong id="modal-order-id" class="text-dark">#SBN-0000</strong></p>
+                    
+                    <div class="border rounded-3 p-3 bg-light text-start small mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Nama:</span>
+                            <span class="fw-bold" id="modal-cust-name">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">No. Telepon:</span>
+                            <span class="fw-bold" id="modal-cust-phone">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Kota:</span>
+                            <span class="fw-bold" id="modal-cust-city">-</span>
+                        </div>
+                        <div class="mb-1">
+                            <span class="text-muted d-block">Alamat Pengiriman:</span>
+                            <span class="fw-semibold" id="modal-cust-address">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1 border-top pt-1">
+                            <span class="text-muted">Metode Pembayaran:</span>
+                            <span class="fw-bold text-success" id="modal-cust-payment">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-top pt-1 mt-1">
+                            <span class="fw-bold">Total Pembayaran:</span>
+                            <span class="fw-bold text-dark-green" id="modal-total-pay">-</span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info py-2 small mb-3">
+                        <i class="fa-solid fa-person-biking me-1"></i> Dapur kami sedang menyiapkan pesanan Anda dan driver akan segera menghubungi via telepon/SMS.
+                    </div>
+
+                    <button type="button" class="btn btn-dark-green text-white w-100 py-2 fw-semibold" data-bs-dismiss="modal">
+                        Selesai & Kembali ke Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi Pesanan Masuk -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="actionToast" class="toast align-items-center text-white bg-dark-green border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
