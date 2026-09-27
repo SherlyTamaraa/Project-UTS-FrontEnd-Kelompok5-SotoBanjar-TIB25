@@ -8,7 +8,7 @@ var defaultMenuData = [
         badge: "Terlaris",
         badgeColor: "bg-danger",
         description: "Suwiran ayam kampung, ketupat, perkedel kentang, soun, dan 1 butir telur bebek rebus.",
-        image: "https://indonesiakaya.com/wp-content/uploads/2023/04/sb_Artboard_5.jpg"
+        image: "https://awsimages.detik.net.id/community/media/visual/2021/11/26/soto-banjar-di-kedai-samin-banjar.jpeg?w=1200"
     },
     {
         id: 2,
@@ -37,7 +37,7 @@ var defaultMenuData = [
         badge: "Renyah",
         badgeColor: "bg-success",
         description: "Tempe kedelai segar dibalut adonan tepung gurih daun bawang renyah.",
-        image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80"
+        image: "https://asset.kompas.com/crops/P9McnIhepGP7MPTUfplFZb6aYxQ=/1x0:617x411/1200x800/data/photo/2021/08/09/6111235a9b7b2.jpg"
     },
     {
         id: 5,
