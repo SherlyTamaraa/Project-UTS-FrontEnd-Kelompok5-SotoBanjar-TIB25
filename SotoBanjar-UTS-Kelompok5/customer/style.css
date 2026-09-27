@@ -169,3 +169,157 @@ body {
     font-weight: 800;
     color: var(--brand-dark-green);
 }
+
+/* Lokasi dan Jam Operasional */
+.location-section {
+    background-color: #FAF8F5;
+}
+
+.badge-pill-subtle {
+    background-color: #F8E8D8;
+    color: #9C6634;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+}
+
+.section-heading-custom {
+    font-family: 'Playfair Display', serif, -apple-system;
+    color: #1B3125;
+}
+
+.info-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #EFE4D6;
+    color: #4A3319;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.title-text {
+    color: #1B3125;
+}
+
+.extra-small {
+    font-size: 0.75rem;
+}
+
+/* Map Preview */
+.map-preview-card {
+    min-height: 340px;
+    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.map-floating-badge {
+    top: 20px;
+    left: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    max-width: 80%;
+}
+
+.btn-gmaps-custom {
+    bottom: 20px;
+    right: 20px;
+    background-color: #E6B98D;
+    color: #382410;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-gmaps-custom:hover {
+    background-color: #d8a674;
+    color: #201306;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.main-footer {
+    background-color: #16281E !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #D4A373;
+    color: #16281E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', serif, -apple-system;
+    letter-spacing: 0.5px;
+}
+
+.text-light-green {
+    color: #A3B8AC;
+}
+
+.footer-desc {
+    line-height: 1.6;
+}
+
+.footer-title {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.footer-links a {
+    color: #A3B8AC;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: #D4A373;
+    transform: translateX(3px);
+}
+
+/* Tombol Sosial Media */
+.social-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+    background-color: #D4A373;
+    color: #16281E;
+    transform: translateY(-2px);
+}
