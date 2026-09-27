@@ -1,13 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Soto Banjar Selera Nusantara - Delivery Online Jabodetabek</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <span class="brand-avatar">S</span>
+                <div>
+                    <span class="d-block brand-title">Soto Banjar</span>
+                    <span class="d-block brand-subtitle">Delivery Jabodetabek</span>
+                </div>
+            </a>
+            
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button id="cart-toggle-btn" class="btn btn-cart position-relative" title="Lihat Keranjang Pesanan">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+                </button>
+                <a href="#menu" class="btn btn-gold d-none d-sm-inline-block">Pesan Sekarang</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#area-pengiriman">Area Kirim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link btn-admin-link" href="../admin/index.html"><i class="fa-solid fa-lock me-1"></i> Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section id="home" class="header-section text-white d-flex align-items-center">
+        <div class="container text-center text-lg-start">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-7">
+                    <span class="badge badge-tag mb-3">
+                        <i class="fa-solid fa-motorcycle me-1 text-warning"></i> Khusus Pesan Online • Area Jabodetabek
+                    </span>
+                    <h1 class="display-4 fw-bold mb-3 header-title">Keharuman Rempah Autentik <span class="text-gold">Khas Banjar</span> Langsung ke Rumahmu</h1>
+                    <p class="lead mb-4 header-desc">Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.</p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#menu" class="btn btn-gold btn-lg px-4">Pesan Sekarang <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                        <a href="#area-pengiriman" class="btn btn-outline-light btn-lg px-4">Cek Jangkauan Kirim</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <div class="header-img-box position-relative d-inline-block">
+                        <img src="https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80" alt="Soto Banjar" class="img-fluid rounded-4 shadow-lg header-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Banner Pengiriman -->
+    <section id="area-pengiriman" class="bg-white py-3 border-bottom shadow-sm">
+        <div class="container">
+            <div class="row g-3 text-center align-items-center">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-dark-green">
+                        <i class="fa-solid fa-shield-halved fa-xl text-gold"></i>
+                        <span class="fw-semibold small">Packaging Food-Grade & Anti Tumpah</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-dark-green">
+                        <i class="fa-solid fa-map-location-dot fa-xl text-gold"></i>
+                        <span class="fw-semibold small">Layanan Antar Seluruh Jabodetabek</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-dark-green">
+                        <i class="fa-solid fa-clock-rotate-left fa-xl text-gold"></i>
+                        <span class="fw-semibold small">Estimasi Pengantaran 30 - 45 Menit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu" class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <span class="badge bg-gold-subtle text-gold text-uppercase px-3 py-2 rounded-pill fw-bold">Menu Pilihan</span>
+                <h2 class="section-title mt-2">Daftar Menu Favorit</h2>
+                <p class="text-muted">Pilih menu favorit Anda dan lengkapi rincian pengantaran pada form pemesanan</p>
+                
+                <!-- Filter Kategori -->
+                <div class="btn-group mt-3 flex-wrap" id="filter-tabs">
+                    <button class="btn btn-outline-dark active" data-category="all">Semua</button>
+                    <button class="btn btn-outline-dark" data-category="soto">Soto & Sup</button>
+                    <button class="btn btn-outline-dark" data-category="sampingan">Sate & Sampingan</button>
+                    <button class="btn btn-outline-dark" data-category="minuman">Minuman Segar</button>
+                </div>
+            </div>
+
+            <!-- Kontainer Menu (Item di-render di script.js) -->
+            <div class="row g-4" id="menu-grid">
+                <!-- Render di JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami -->
+    <section id="tentang" class="py-5 bg-dark-green text-white">
+        <div class="container py-4">
+            <div class="row align-items-center gy-4">
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-3 shadow" alt="Rempah">
+                        </div>
+                        <div class="col-6 pt-4">
+                            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-3 shadow" alt="Masak">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <span class="text-gold text-uppercase fw-bold small">Cita Rasa Nusantara</span>
+                    <h2 class="mt-2 mb-3">Dimasak Perlahan dengan Rempah Pilihan</h2>
+                    <p class="text-light-subtle">Kelezatan Soto Banjar kami tercipta dari proses kuah kaldu yang dimasak secara tradisional dengan racikan kayu manis, kapulaga, dan telur bebek gurih. Dikemas higienis khusus delivery untuk menjaga cita rasa tetap hangat dan segar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
