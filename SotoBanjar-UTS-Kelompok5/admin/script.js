@@ -5,6 +5,7 @@ const ADMIN_CREDENTIALS = {
 
 let uploadedMenuImageBase64 = "";
 
+// Toggle Show Hide Password Admin
 window.toggleAdminPasswordVisibility = function() {
     const input = document.getElementById("admin-pass");
     const icon = document.getElementById("eye-icon-admin");
@@ -61,7 +62,23 @@ const defaultCategories = [
     { key: "hidangan-penutup", label: "Hidangan Penutup" }
 ];
 
+const defaultOngkirList = [
+    { id: 1, name: "Jakarta", price: 10000 },
+    { id: 2, name: "Tangerang / Tangsel", price: 15000 },
+    { id: 3, name: "Depok / Bekasi", price: 18000 },
+    { id: 4, name: "Bogor", price: 24000 }
+];
+
 const CURRENT_DATA_VERSION = "v3_banjar_full";
+
+function getStoredOngkirList() {
+    try {
+        const saved = localStorage.getItem("sotoBanjarOngkirList");
+        return saved ? JSON.parse(saved) : defaultOngkirList;
+    } catch (e) {
+        return defaultOngkirList;
+    }
+}
 
 function getStoredCategories() {
     try {
@@ -89,9 +106,107 @@ function getStoredMenu() {
     return defaultMenuData;
 }
 
-let menuList = getStoredMenu();
-let currentCategories = getStoredCategories();
+function getStoredOrders() {
+    try {
+        const saved = localStorage.getItem("sotoBanjarOrders");
+        return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+        return [];
+    }
+}
 
+let menuList = getStoredMenu();
+let orderList = getStoredOrders();
+let currentOngkirList = getStoredOngkirList();
+let currentCategories = getStoredCategories();
+let selectedOrderId = null;
+
+// kelola Ongkir
+function renderOngkirDisplay() {
+    const container = document.getElementById("ongkir-display-container");
+    if (!container) return;
+
+    currentOngkirList = getStoredOngkirList();
+    container.innerHTML = "";
+
+    currentOngkirList.forEach(item => {
+        const span = document.createElement("span");
+        span.className = "daerah-item";
+        span.innerHTML = `<i class="fa-solid fa-location-dot text-danger"></i> ${item.name} (Rp ${Number(item.price).toLocaleString("id-ID")})`;
+        container.appendChild(span);
+    });
+}
+
+window.openOngkirModal = function() {
+    renderDynamicOngkirTable();
+    toggleModal("edit-ongkir-modal");
+};
+
+function renderDynamicOngkirTable() {
+    const tbody = document.getElementById("dynamic-ongkir-table-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    currentOngkirList = getStoredOngkirList();
+
+    currentOngkirList.forEach((item) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td><strong>${item.name}</strong></td>
+            <td>
+                <input type="number" class="form-input-custom py-1 px-2" style="max-width: 140px;" value="${item.price}" onchange="updateOngkirPrice(${item.id}, this.value)">
+            </td>
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-sm btn-delete py-1 px-2" onclick="deleteOngkirArea(${item.id})" title="Hapus Daerah"><i class="fa-solid fa-trash"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+window.updateOngkirPrice = function(id, newPrice) {
+    const p = parseInt(newPrice, 10);
+    if (isNaN(p) || p < 0) return;
+    const item = currentOngkirList.find(o => o.id === id);
+    if (item) {
+        item.price = p;
+        localStorage.setItem("sotoBanjarOngkirList", JSON.stringify(currentOngkirList));
+        renderOngkirDisplay();
+    }
+};
+
+window.addNewOngkirArea = function() {
+    const nameInp = document.getElementById("new-ongkir-name");
+    const priceInp = document.getElementById("new-ongkir-price");
+
+    const name = nameInp.value.trim();
+    const price = parseInt(priceInp.value, 10);
+
+    if (!name || isNaN(price) || price < 0) {
+        alert("Harap masukkan nama daerah dan tarif ongkos kirim yang valid!");
+        return;
+    }
+
+    const newId = currentOngkirList.length > 0 ? Math.max(...currentOngkirList.map(o => o.id)) + 1 : 1;
+    currentOngkirList.push({ id: newId, name, price });
+    localStorage.setItem("sotoBanjarOngkirList", JSON.stringify(currentOngkirList));
+
+    nameInp.value = "";
+    priceInp.value = "";
+    renderDynamicOngkirTable();
+    renderOngkirDisplay();
+};
+
+window.deleteOngkirArea = function(id) {
+    if (confirm("Hapus daerah pengiriman ini?")) {
+        currentOngkirList = currentOngkirList.filter(o => o.id !== id);
+        localStorage.setItem("sotoBanjarOngkirList", JSON.stringify(currentOngkirList));
+        renderDynamicOngkirTable();
+        renderOngkirDisplay();
+    }
+};
+
+// Kelola Kategori & Menu
 function populateCategoryDropdown(selectedKey = "") {
     const catSelect = document.getElementById("menu-category");
     if (!catSelect) return;
@@ -239,6 +354,149 @@ window.deleteMenu = function(id) {
     }
 };
 
+// Kelola Pesanan Masuk
+function renderOrderTable(data = orderList) {
+    const tbody = document.getElementById("order-table-body");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: var(--text-muted); padding: 35px;">Belum ada pesanan online yang masuk dari customer.</td></tr>';
+    } else {
+        data.forEach((order) => {
+            const orderDate = order.timestamp ? new Date(order.timestamp).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' }) : "-";
+            let itemsHTML = '<ul class="order-items-list">';
+            if (Array.isArray(order.items)) {
+                order.items.forEach(item => { itemsHTML += '<li><span class="qty-badge">' + item.qty + 'x</span> ' + item.name + '</li>'; });
+            }
+            itemsHTML += '</ul>';
+
+            const cust = order.customer || {};
+            const city = cust.city || "Jabodetabek";
+            const addr = cust.address || "-";
+            const noteHTML = (cust.note && cust.note !== "-") ? '<div class="note-driver"><i class="fa-regular fa-comment-dots"></i> <em>Patokan: ' + cust.note + '</em></div>' : '';
+
+            const addressHTML = `
+                <div class="cust-address-box">
+                    <span class="badge-city"><i class="fa-solid fa-location-dot"></i> ${city}</span>
+                    <div class="full-addr">${addr}</div>
+                    ${noteHTML}
+                </div>
+            `;
+
+            const totalPay = order.pricing ? order.pricing.total : (order.total || 0);
+            const ongkirPay = order.pricing ? order.pricing.ongkir : 0;
+            const currentOrderId = order.orderId || order.id;
+            const statusBadgeClass = order.status === 'Selesai' ? 'bg-success' : 'bg-warning';
+
+            const actionBtn = order.status === 'Diproses'
+                ? '<button class="btn btn-sm btn-primary" onclick="completeOrder(\'' + currentOrderId + '\')"><i class="fa-solid fa-check"></i> Selesaikan</button>'
+                : '<i class="fa-solid fa-circle-check text-success fa-lg"></i>';
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = 
+                '<td><span class="timestamp-badge"><i class="fa-regular fa-clock"></i> ' + orderDate + ' WIB</span></td>' +
+                '<td><strong>#' + currentOrderId + '</strong></td>' +
+                '<td><strong>' + (cust.name || "-") + '</strong><div class="small text-muted" style="font-size: 0.8rem;"><i class="fa-solid fa-phone"></i> ' + (cust.phone || "-") + '</div></td>' +
+                '<td>' + addressHTML + '</td>' +
+                '<td>' + itemsHTML + '</td>' +
+                '<td class="price-col" style="white-space: nowrap;"><strong>Rp ' + Number(totalPay).toLocaleString("id-ID") + '</strong><div class="small text-muted" style="font-size: 0.75rem;">Ongkir: Rp ' + Number(ongkirPay).toLocaleString("id-ID") + '</div></td>' +
+                '<td><span class="badge badge-payment">' + (order.paymentMethod || "COD") + '</span></td>' +
+                '<td><span class="badge ' + statusBadgeClass + '">' + order.status + '</span></td>' +
+                '<td>' + actionBtn + '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    const totalOrdersEl = document.getElementById("total-orders-count");
+    if (totalOrdersEl) totalOrdersEl.textContent = orderList.length;
+
+    const diprosesCount = orderList.filter(o => o.status === 'Diproses').length;
+    const selesaiCount = orderList.filter(o => o.status === 'Selesai').length;
+    if (document.getElementById("count-diproses")) document.getElementById("count-diproses").textContent = diprosesCount;
+    if (document.getElementById("count-selesai")) document.getElementById("count-selesai").textContent = selesaiCount;
+
+    const totalIncome = orderList.reduce((sum, o) => sum + (o.pricing ? o.pricing.total : (o.total || 0)), 0);
+    const totalIncomeEl = document.getElementById("total-income-count");
+    if (totalIncomeEl) totalIncomeEl.textContent = 'Rp ' + Number(totalIncome).toLocaleString("id-ID");
+}
+
+window.filterOrders = function() {
+    const filterEl = document.getElementById("order-filter");
+    if (!filterEl) return;
+    const selectedFilter = filterEl.value;
+    renderOrderTable(selectedFilter === "Semua" ? orderList : orderList.filter(o => o.status === selectedFilter));
+};
+
+window.completeOrder = function(orderId) {
+    selectedOrderId = orderId;
+    document.getElementById("confirm-order-id").textContent = "#" + orderId;
+    document.getElementById("confirm-order-modal").classList.add("active");
+};
+
+window.closeConfirmModal = function() {
+    selectedOrderId = null;
+    document.getElementById("confirm-order-modal").classList.remove("active");
+};
+
+window.switchTab = function(tabId, element) {
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active-tab'));
+
+    const navItems = document.querySelectorAll('.sidebar-menu .nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) targetTab.classList.add('active-tab');
+    if (element) element.classList.add('active');
+
+    const pageTitle = document.getElementById('page-title');
+    const pageSub = document.getElementById('page-sub');
+
+    if (tabId === 'dashboard') {
+        if (pageTitle) pageTitle.textContent = "Dashboard Kelola Toko";
+        if (pageSub) pageSub.textContent = "Ringkasan aktivitas toko dan pesanan online Jabodetabek.";
+        renderOngkirDisplay();
+    } else if (tabId === 'kelola-menu') {
+        if (pageTitle) pageTitle.textContent = "Kelola Menu Kuliner";
+        if (pageSub) pageSub.textContent = "Tambah, ubah harga, foto, kategori, dan warna badge menu.";
+        renderMenuTable();
+        populateCategoryDropdown();
+    } else if (tabId === 'kelola-pesanan') {
+        if (pageTitle) pageTitle.textContent = "Daftar Pesanan Online Masuk";
+        if (pageSub) pageSub.textContent = "Pantau rincian alamat pengantaran customer dan update status pengiriman.";
+        renderOrderTable();
+    } else if (tabId === 'riwayat-login') {
+        if (pageTitle) pageTitle.textContent = "Riwayat Aktivitas Login";
+        if (pageSub) pageSub.textContent = "Pencatatan sesi masuk customer dan pengelola admin.";
+        renderLoginHistoryTable();
+    }
+};
+
+function checkAdminAuth() {
+    const isLogged = sessionStorage.getItem("sotoBanjarAdminAuth");
+    const lockOverlay = document.getElementById("admin-login-lock");
+    const mainWrapper = document.getElementById("admin-main-wrapper");
+
+    if (isLogged === "true") {
+        if (lockOverlay) lockOverlay.classList.add("d-none");
+        if (mainWrapper) mainWrapper.classList.remove("d-none");
+        renderMenuTable();
+        populateCategoryDropdown();
+        renderOngkirDisplay();
+        renderOrderTable();
+        renderLoginHistoryTable();
+    } else {
+        if (lockOverlay) lockOverlay.classList.remove("d-none");
+        if (mainWrapper) mainWrapper.classList.add("d-none");
+    }
+}
+
+window.logoutAdmin = function() {
+    sessionStorage.removeItem("sotoBanjarAdminAuth");
+    window.location.reload();
+};
+
 window.toggleModal = function(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
@@ -263,90 +521,6 @@ window.toggleModal = function(modalId) {
 
             populateCategoryDropdown();
         }
-    }
-};
-
-window.switchTab = function(tabId, element) {
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.classList.remove('active-tab'));
-
-    const navItems = document.querySelectorAll('.sidebar-menu .nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
-
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) targetTab.classList.add('active-tab');
-    if (element) element.classList.add('active');
-
-    const pageTitle = document.getElementById('page-title');
-    const pageSub = document.getElementById('page-sub');
-
-    if (tabId === 'dashboard') {
-        if (pageTitle) pageTitle.textContent = "Dashboard Kelola Toko";
-        if (pageSub) pageSub.textContent = "Ringkasan aktivitas toko dan pesanan online Jabodetabek.";
-    } else if (tabId === 'kelola-menu') {
-        if (pageTitle) pageTitle.textContent = "Kelola Menu Kuliner";
-        if (pageSub) pageSub.textContent = "Tambah, ubah harga, foto, kategori, dan warna badge menu.";
-        renderMenuTable();
-        populateCategoryDropdown();
-    } else if (tabId === 'riwayat-login') {
-        if (pageTitle) pageTitle.textContent = "Riwayat Aktivitas Login";
-        if (pageSub) pageSub.textContent = "Pencatatan sesi masuk customer dan pengelola admin.";
-        renderLoginHistoryTable();
-    }
-};
-
-function checkAdminAuth() {
-    const isLogged = sessionStorage.getItem("sotoBanjarAdminAuth");
-    const lockOverlay = document.getElementById("admin-login-lock");
-    const mainWrapper = document.getElementById("admin-main-wrapper");
-
-    if (isLogged === "true") {
-        if (lockOverlay) lockOverlay.classList.add("d-none");
-        if (mainWrapper) mainWrapper.classList.remove("d-none");
-        renderMenuTable();
-        populateCategoryDropdown();
-        renderLoginHistoryTable();
-    } else {
-        if (lockOverlay) lockOverlay.classList.remove("d-none");
-        if (mainWrapper) mainWrapper.classList.add("d-none");
-    }
-}
-
-window.logoutAdmin = function() {
-    sessionStorage.removeItem("sotoBanjarAdminAuth");
-    window.location.reload();
-};
-
-function renderLoginHistoryTable() {
-    const tbody = document.getElementById("login-history-table-body");
-    if (!tbody) return;
-    tbody.innerHTML = "";
-
-    const history = JSON.parse(localStorage.getItem("sotoBanjarLoginHistory") || "[]");
-    if (history.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted); padding: 30px;">Belum ada riwayat aktivitas login.</td></tr>';
-        return;
-    }
-
-    history.forEach(log => {
-        const timeFormatted = new Date(log.time).toLocaleString("id-ID", { dateStyle: 'medium', timeStyle: 'short' });
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td><code>${log.id}</code></td>
-            <td><i class="fa-regular fa-clock me-1 text-muted"></i> ${timeFormatted}</td>
-            <td><strong>${log.username}</strong></td>
-            <td><span class="badge ${log.role === 'Admin' ? 'bg-danger' : 'bg-info'}">${log.role}</span></td>
-            <td><span class="badge ${log.status.includes('Berhasil') ? 'bg-success' : 'bg-warning'}">${log.status}</span></td>
-            <td><small class="text-muted">${log.ip}</small></td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-window.clearLoginHistory = function() {
-    if (confirm("Hapus seluruh catatan riwayat login?")) {
-        localStorage.removeItem("sotoBanjarLoginHistory");
-        renderLoginHistoryTable();
     }
 };
 
@@ -459,6 +633,21 @@ document.addEventListener("DOMContentLoaded", () => {
             renderMenuTable();
             populateCategoryDropdown();
             toggleModal("add-menu-modal");
+        });
+    }
+
+    const btnConfirmSubmit = document.getElementById("btn-confirm-submit");
+    if (btnConfirmSubmit) {
+        btnConfirmSubmit.addEventListener("click", () => {
+            if (selectedOrderId) {
+                const order = orderList.find(o => (o.orderId || o.id) === selectedOrderId);
+                if (order) {
+                    order.status = "Selesai";
+                    localStorage.setItem("sotoBanjarOrders", JSON.stringify(orderList));
+                    renderOrderTable();
+                }
+                closeConfirmModal();
+            }
         });
     }
 });
