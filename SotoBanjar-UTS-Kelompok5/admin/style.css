@@ -288,6 +288,15 @@ body {
     font-weight: 700;
 }
 
+/* Format harga rapi mendatar */
+.data-table th:nth-child(5),
+.data-table td:nth-child(5),
+.price-col {
+    white-space: nowrap !important;
+    font-weight: 700;
+    color: #1B3125;
+}
+
 .badge {
     padding: 5px 12px;
     border-radius: 20px;
@@ -300,6 +309,9 @@ body {
 .bg-info { background-color: #e0f2fe !important; color: #0369a1 !important; }
 .bg-success { background-color: #dcfce7 !important; color: #166534 !important; }
 .bg-warning { background-color: #fef3c7 !important; color: #92400e !important; }
+.bg-orange { background-color: #ffedd5 !important; color: #c2410c !important; }
+.bg-purple { background-color: #f3e8ff !important; color: #6b21a8 !important; }
+.bg-dark { background-color: #1e293b !important; color: #ffffff !important; }
 
 .btn {
     padding: 9px 18px;
@@ -318,11 +330,109 @@ body {
 .btn-primary:hover { background-color: var(--primary-hover); }
 
 .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+.btn-edit { background: #e0f2fe; color: #0369a1; }
 .btn-delete { background: #fee2e2; color: #991b1b; }
 
 .tab-content { display: none; }
 .tab-content.active-tab { display: block; }
 
+.menu-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Modal Form */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 18px;
+    padding: 28px 34px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label, .form-label-custom {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.form-group input, .form-group select, .form-group textarea, .form-input-custom {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s ease;
+    background-color: #f8fafc;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus, .form-input-custom:focus {
+    background-color: #ffffff;
+    border-color: var(--gold-color);
+}
+
+.form-control-file-custom {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px dashed var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+.btn-outline:hover { background: var(--light-bg); border-color: #cbd5e1; }
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Login Overlay Styles */
 .admin-login-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;

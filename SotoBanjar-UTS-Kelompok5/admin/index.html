@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- Main Admin -->
+    <!-- MAIN WRAPPER ADMIN -->
     <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
@@ -88,6 +88,7 @@
 
             <nav class="sidebar-menu">
                 <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-menu', this)"><i class="fa-solid fa-utensils"></i> Kelola Menu</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('riwayat-login', this)"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Login</a>
                 <a href="javascript:void(0)" class="nav-item logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Keluar Admin</a>
             </nav>
@@ -145,6 +146,35 @@
                 </div>
             </section>
 
+            <!-- Kelola Menu -->
+            <section id="kelola-menu" class="tab-content">
+                <div class="content-section p-4">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-list-check"></i> Kelola Daftar Menu</h3>
+                        <button class="btn btn-primary" onclick="toggleModal('add-menu-modal')">
+                            <i class="fa-solid fa-plus"></i> Tambah Menu Baru
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Foto</th>
+                                    <th>Nama Menu</th>
+                                    <th>Kategori</th>
+                                    <th>Harga (Rp)</th>
+                                    <th>Badge</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menu-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <!-- Riwayat Login -->
             <section id="riwayat-login" class="tab-content">
                 <div class="content-section p-4">
@@ -170,6 +200,85 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Form Tambah atau Edit Menu -->
+    <div class="modal-overlay" id="add-menu-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-title">Tambah Menu Baru</h3>
+                <button class="close-btn" onclick="toggleModal('add-menu-modal')">&times;</button>
+            </div>
+            <form id="menu-form">
+                <input type="hidden" id="menu-id">
+                <div class="form-group">
+                    <label for="menu-name">Nama Menu *</label>
+                    <input type="text" id="menu-name" placeholder="Contoh: Soto Banjar Spesial" required>
+                </div>
+
+                <div class="form-group text-start">
+                    <label for="menu-image-file" class="form-label-custom">Upload Foto Menu *</label>
+                    <input type="file" id="menu-image-file" class="form-control-file-custom" accept="image/*">
+                    <input type="hidden" id="menu-image-data">
+                    <div id="menu-image-preview-wrapper" class="mt-2 d-none d-flex align-items-center gap-2">
+                        <img id="menu-image-preview" src="" alt="Preview" style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1;">
+                        <span class="text-success small fw-bold"><i class="fa-solid fa-circle-check"></i> Foto terpilih</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="menu-category">Kategori Menu *</label>
+                    <select id="menu-category" required onchange="handleCategorySelectChange()">
+                    </select>
+                    <div id="new-category-wrapper" class="mt-2 d-none">
+                        <input type="text" id="new-category-name" class="form-input-custom" placeholder="Ketik nama kategori baru (cth: Paket Hemat)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="menu-price">Harga (Rp) *</label>
+                    <input type="number" id="menu-price" placeholder="35000" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="menu-badge-select">Badge Label (Opsional)</label>
+                    <select id="menu-badge-select" onchange="handleBadgeSelectChange()">
+                        <option value="">-- Tanpa Badge (Default) --</option>
+                        <option value="Best Seller">Best Seller</option>
+                        <option value="Populer">Populer</option>
+                        <option value="Authentic">Authentic</option>
+                        <option value="New">New</option>
+                        <option value="CUSTOM">+ Tulis Badge Lainnya...</option>
+                    </select>
+                    
+                    <div id="custom-badge-wrapper" class="mt-2 d-none">
+                        <input type="text" id="custom-badge-text" class="form-input-custom" placeholder="Ketik label badge baru (cth: Spesial / Favorit)">
+                    </div>
+
+                    <div id="badge-color-wrapper" class="mt-2 d-none">
+                        <label class="extra-small fw-bold text-muted mb-1 d-block"><i class="fa-solid fa-palette text-gold me-1"></i> Pilih Warna Badge</label>
+                        <select id="menu-badge-color">
+                            <option value="bg-danger">Merah</option>
+                            <option value="bg-warning text-dark">Kuning</option>
+                            <option value="bg-success">Hijau</option>
+                            <option value="bg-info text-dark">Biru</option>
+                            <option value="bg-orange">Oranye</option>
+                            <option value="bg-purple">Ungu</option>
+                            <option value="bg-dark">Hitam</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="menu-desc">Deskripsi Singkat</label>
+                    <input type="text" id="menu-desc" placeholder="Contoh: Disajikan lengkap dengan ketupat dan perkedel">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="toggleModal('add-menu-modal')">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Menu</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="script.js"></script>
