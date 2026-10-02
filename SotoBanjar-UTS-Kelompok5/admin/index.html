@@ -20,6 +20,7 @@
                 <span class="banner-badge">
                     <i class="fa-solid fa-lock"></i> Area Khusus Pengelola
                 </span>
+                <!-- Logo samping kiri -->
                 <div class="login-brand-wrapper">
                     <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="admin-login-logo">
                     <div class="login-brand-text">
@@ -31,7 +32,7 @@
 
             <div class="login-card-body">
                 <div class="login-greeting">
-                    <h4>Selamat Datang! 👋</h4>
+                    <h4>Selamat Datang!</h4>
                     <p>Silakan masuk dengan akun admin untuk mengelola pesanan & menu restoran.</p>
                 </div>
                 
@@ -76,10 +77,11 @@
         </div>
     </div>
 
-    <!-- Main Admin -->
+    <!-- MAIN WRAPPER ADMIN -->
     <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
+                <!-- Logo di Sidebar Navigasi Admin -->
                 <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="sidebar-logo-img">
                 <div class="brand-text">
                     <span class="brand-name">Soto Banjar</span>
@@ -93,6 +95,7 @@
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-pesanan', this)"><i class="fa-solid fa-receipt"></i> Pesanan Masuk</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('laporan-omset', this)"><i class="fa-solid fa-chart-pie"></i> Rincian Omset</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-review', this)"><i class="fa-solid fa-comments"></i> Kelola Ulasan</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('edit-header', this)"><i class="fa-solid fa-pen-ruler"></i> Edit Header & Konten Web</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('riwayat-login', this)"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Login</a>
                 <a href="javascript:void(0)" class="nav-item logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Keluar Admin</a>
             </nav>
@@ -114,7 +117,7 @@
             <section id="dashboard" class="tab-content active-tab">
                 <div class="kotak-atas mb-4">
                     <div class="teks-atas">
-                        <h3>Selamat Datang, Admin Dapur! 👋</h3>
+                        <h3>Selamat Datang, Admin Dapur!</h3>
                         <p>Dapur Soto Banjar Selera Nusantara siap melayani pesanan delivery online wilayah Jabodetabek.</p>
                         <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
                             <span class="label-buka"><i class="fa-solid fa-circle text-success"></i> Dapur Delivery Buka</span>
@@ -315,6 +318,390 @@
                 </div>
             </section>
 
+            <!-- Edit Header & Konten Web -->
+            <section id="edit-header" class="tab-content">
+                <div class="content-section p-4">
+                    <div class="section-header mb-3">
+                        <div>
+                            <h3 class="mb-1"><i class="fa-solid fa-pen-ruler text-gold"></i> Pengaturan Konten Halaman Web Customer</h3>
+                            <p class="text-muted small mb-0">Sesuaikan kalimat hero banner, cerita tentang cita rasa, dan daftar tanya jawab (FAQ).</p>
+                        </div>
+                    </div>
+
+                    <div class="subtab-pills-container mb-4">
+                        <button type="button" class="subtab-btn active" id="subtab-btn-hero" onclick="switchContentSubTab('hero')">
+                            <i class="fa-solid fa-image me-1"></i> 1. Banner Header
+                        </button>
+                        <button type="button" class="subtab-btn" id="subtab-btn-about" onclick="switchContentSubTab('about')">
+                            <i class="fa-solid fa-book-open me-1"></i> 2. Cerita Tentang Kami (Filosofi Rasa)
+                        </button>
+                        <button type="button" class="subtab-btn" id="subtab-btn-faq" onclick="switchContentSubTab('faq')">
+                            <i class="fa-solid fa-circle-question me-1"></i> 3. Tanya Jawab (FAQ)
+                        </button>
+                    </div>
+
+                    <!-- Edit header -->
+                    <div id="content-sub-hero" class="content-subtab-pane active-subtab">
+                        <div class="row-dashboard-grid">
+                            <div class="kotak-kecil preview-wrapper-card">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-eye text-gold me-1"></i> Tampilan Web Customer</h5>
+                                    <span class="badge bg-light text-muted small border">Live Preview</span>
+                                </div>
+
+                                <div class="mock-browser">
+                                    <div class="mock-browser-bar">
+                                        <div class="mock-dots">
+                                            <span class="dot red"></span>
+                                            <span class="dot yellow"></span>
+                                            <span class="dot green"></span>
+                                        </div>
+                                        <div class="mock-url-bar">
+                                            <i class="fa-solid fa-lock me-1"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="preview-hero-box">
+                                        <div class="preview-hero-content">
+                                            <div class="preview-badge-pill" id="preview-badge-display">
+                                                <i class="fa-solid fa-motorcycle text-warning me-1"></i> Khusus Pesan Online • Area Jabodetabek
+                                            </div>
+                                            <h3 class="hero-preview-title" id="preview-title-display">
+                                                Keharuman Rempah Autentik <span class="text-gold">Khas Banjar</span> Langsung ke Rumahmu
+                                            </h3>
+                                            <p class="hero-preview-desc" id="preview-desc-display">
+                                                Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan.
+                                            </p>
+                                            <div class="preview-btn-group">
+                                                <span class="mock-btn mock-btn-gold">Pesan Sekarang &rarr;</span>
+                                                <span class="mock-btn mock-btn-outline">Cek Area Kirim</span>
+                                            </div>
+                                        </div>
+                                        <div class="preview-hero-img-wrap">
+                                            <img id="preview-hero-img-display" src="../assets/header.jpg" alt="Soto Banjar" class="preview-mini-img">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="kotak-kecil">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-pen-to-square text-primary me-1"></i> Form Ubah Banner Header</h5>
+                                    <span class="badge bg-light text-primary small border">Edit Teks & Foto</span>
+                                </div>
+
+                                <form id="header-edit-form">
+                                    <div class="form-group mb-3 text-start">
+                                        <label class="form-label-custom">Tagline Badge Atas</label>
+                                        <input type="text" id="edit-hero-badge" class="form-input-custom" placeholder="Contoh: Khusus Pesan Online • Area Jabodetabek" required>
+                                    </div>
+
+                                    <div class="form-group mb-3 text-start">
+                                        <label class="form-label-custom">Judul Utama Banner (Header Title)</label>
+                                        <textarea id="edit-hero-title" class="form-input-custom" rows="2" placeholder="Contoh: Keharuman Rempah Autentik Khas Banjar Langsung ke Rumahmu" required></textarea>
+                                    </div>
+
+                                    <div class="form-group mb-3 text-start">
+                                        <label class="form-label-custom">
+                                            <i class="fa-solid fa-highlighter text-warning me-1"></i> Kata yang Diberi Warna Cokelat/Emas (Highlight)
+                                        </label>
+                                        <input type="text" id="edit-hero-highlight" class="form-input-custom" placeholder="Contoh: Khas Banjar" value="Khas Banjar">
+                                    </div>
+
+                                    <div class="form-group mb-3 text-start">
+                                        <label class="form-label-custom">Deskripsi Lengkap (Lead Subtitle)</label>
+                                        <textarea id="edit-hero-desc" class="form-input-custom" rows="3" placeholder="Deskripsi rasa kuah rempah, kebersihan, dan pengiriman..." required></textarea>
+                                    </div>
+
+                                    <div class="p-3 bg-light rounded-3 border mb-4 text-start">
+                                        <label class="form-label-custom mb-2"><i class="fa-solid fa-camera text-primary me-1"></i> Ganti Gambar Banner Hero</label>
+                                        <div class="mb-2">
+                                            <small class="text-muted d-block mb-1">Opsi 1: Tempel Link URL Gambar Web</small>
+                                            <input type="url" id="edit-hero-image-url" class="form-input-custom" placeholder="Masukkan Link URL G">
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Opsi 2: Atau Upload Foto dari Laptop / HP</small>
+                                            <input type="file" id="edit-hero-image-file" class="form-control-file-custom" accept="image/*">
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Header
+                                        </button>
+                                        <button type="button" class="btn btn-outline" onclick="resetHeroText()">
+                                            <i class="fa-solid fa-rotate-left me-1"></i> Reset ke Default
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit tentang kami -->
+                    <div id="content-sub-about" class="content-subtab-pane">
+                        <div class="kotak-kecil preview-wrapper-card mb-4 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark-green"><i class="fa-solid fa-eye text-gold me-2"></i> Live Preview: Tampilan Section Tentang Kami</h5>
+                                    <small class="text-muted">Pratinjau visual penuh sesuai ukuran di halaman web customer.</small>
+                                </div>
+                                <span class="badge bg-light text-success border px-3 py-2 fw-bold">Live Preview Aktif</span>
+                            </div>
+
+                            <div class="mock-browser">
+                                <div class="mock-browser-bar">
+                                    <div class="mock-dots">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                    </div>
+                                    <div class="mock-url-bar">
+                                        <i class="fa-solid fa-lock me-1"></i>
+                                    </div>
+                                </div>
+
+                                <div class="preview-about-wide-box">
+                                    <div class="preview-about-wide-grid">
+                                        <div class="preview-about-photo-wrap position-relative">
+                                            <div class="preview-about-photo-frame rounded-4 overflow-hidden shadow">
+                                                <img id="preview-about-img-display" src="../assets/soto-banjar.jpeg" alt="Preview Tentang Kami" class="preview-about-wide-img">
+                                            </div>
+                                            <div class="preview-about-wide-float-card shadow p-2 px-3 rounded-3 bg-white text-dark position-absolute border">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="fa-solid fa-mortar-pestle text-gold fa-lg"></i>
+                                                    <div>
+                                                        <strong class="d-block text-dark-green" style="font-size: 0.78rem; line-height: 1.1;">100% Rempah Asli</strong>
+                                                        <small class="text-muted extra-small">Resep Turun-Temurun</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="preview-about-content-wrap text-white">
+                                            <span class="preview-badge-pill mb-2" id="preview-about-badge-display">FILOSOFI RASA</span>
+                                            <h3 class="preview-about-wide-title mb-3" id="preview-about-title-display">
+                                                Warisan Cita Rasa Hangat dari <span class="text-gold">Bumi Kalimantan</span>
+                                            </h3>
+                                            <p class="preview-about-wide-desc mb-2" id="preview-about-p1-display">
+                                                Soto Banjar Selera Nusantara berakar dari kecintaan kami melestarikan kuliner legendaris khas Banjarmasin...
+                                            </p>
+                                            <p class="preview-about-wide-desc mb-4" id="preview-about-p2-display">
+                                                Kami hanya menggunakan 100% ayam kampung segar yang menghasilkan kaldu gurih alami tanpa bahan pengawet...
+                                            </p>
+
+                                            <div class="preview-about-features-grid">
+                                                <div class="preview-feat-card">
+                                                    <i class="fa-solid fa-fire-burner"></i>
+                                                    <div>
+                                                        <strong class="preview-feat-title" id="preview-about-feat1-title">Ayam Kampung Asli</strong>
+                                                        <span class="preview-feat-desc" id="preview-about-feat1-desc">Daging manis alami berpadu kaldu gurih kaya nutrisi rempah.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="preview-feat-card">
+                                                    <i class="fa-solid fa-lemon"></i>
+                                                    <div>
+                                                        <strong class="preview-feat-title" id="preview-about-feat2-title">Jeruk Kuit Segar</strong>
+                                                        <span class="preview-feat-desc" id="preview-about-feat2-desc">Aroma sitrus khas Banjar yang autentik dan menyegarkan.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kotak-kecil p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark-green"><i class="fa-solid fa-pen-to-square text-primary me-2"></i> Form Sunting Section Tentang Kami</h5>
+                                    <small class="text-muted">Ubah teks, dua kotak keunggulan rasa, serta foto banner Tentang Kami di bawah ini.</small>
+                                </div>
+                                <span class="badge bg-light text-primary border px-3 py-2 fw-bold">Editor Konten</span>
+                            </div>
+
+                            <form id="about-edit-form">
+                                <div class="form-grid-2col mb-3">
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">Badge Tagline Atas</label>
+                                        <input type="text" id="edit-about-badge" class="form-input-custom" placeholder="Contoh: FILOSOFI RASA" required>
+                                    </div>
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">
+                                            <i class="fa-solid fa-highlighter text-warning me-1"></i> Kata yang di higllight (Cokelat / Emas)
+                                        </label>
+                                        <input type="text" id="edit-about-highlight" class="form-input-custom" placeholder="Contoh: Bumi Kalimantan" value="Bumi Kalimantan">
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3 text-start">
+                                    <label class="form-label-custom">Judul Utama Tentang Kami</label>
+                                    <textarea id="edit-about-title" class="form-input-custom" rows="2" placeholder="Contoh: Warisan Cita Rasa Hangat dari Bumi Kalimantan" required></textarea>
+                                </div>
+
+                                <div class="form-grid-2col mb-4">
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">Paragraf 1 (Cerita Cita Rasa & Rempah)</label>
+                                        <textarea id="edit-about-p1" class="form-input-custom" rows="4" placeholder="Ceritakan rahasia rempah kayu manis, kapulaga, dan bunga lawang..." required></textarea>
+                                    </div>
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">Paragraf 2 (Kualitas Ayam & Pelengkap)</label>
+                                        <textarea id="edit-about-p2" class="form-input-custom" rows="4" placeholder="Ceritakan ayam kampung murni, telur bebek, dan jeruk kuit..." required></textarea>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold text-dark-green mb-3"><i class="fa-solid fa-boxes-stacked text-gold me-2"></i> Sunting 2 Kotak Keunggulan Rasa</h6>
+                                <div class="form-grid-2col mb-4">
+                                    <div class="p-3 bg-light rounded-3 border text-start">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-fire-burner text-gold"></i>
+                                            <strong class="small text-dark-green">Kotak Keunggulan 1 (Kiri)</strong>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label class="extra-small fw-bold text-muted mb-1">Judul Keunggulan 1</label>
+                                            <input type="text" id="edit-about-feat1-title" class="form-input-custom" placeholder="Contoh: Ayam Kampung Asli" required>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label class="extra-small fw-bold text-muted mb-1">Penjelasan Singkat 1</label>
+                                            <input type="text" id="edit-about-feat1-desc" class="form-input-custom" placeholder="Contoh: Daging manis alami berpadu kaldu gurih kaya nutrisi rempah." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 bg-light rounded-3 border text-start">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <i class="fa-solid fa-lemon text-gold"></i>
+                                            <strong class="small text-dark-green">Kotak Keunggulan 2 (Kanan)</strong>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label class="extra-small fw-bold text-muted mb-1">Judul Keunggulan 2</label>
+                                            <input type="text" id="edit-about-feat2-title" class="form-input-custom" placeholder="Contoh: Jeruk Kuit Segar" required>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label class="extra-small fw-bold text-muted mb-1">Penjelasan Singkat 2</label>
+                                            <input type="text" id="edit-about-feat2-desc" class="form-input-custom" placeholder="Contoh: Aroma sitrus khas Banjar yang autentik dan menyegarkan." required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-light rounded-3 border mb-4 text-start">
+                                    <label class="form-label-custom mb-2"><i class="fa-solid fa-camera text-primary me-1"></i> Ganti Gambar / Foto Section Tentang Kami</label>
+                                    <div class="form-grid-2col">
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Opsi 1: Tempel Link URL Gambar Web</small>
+                                            <input type="url" id="edit-about-image-url" class="form-input-custom" placeholder="Masukkan Link URL">
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Opsi 2: Atau Upload Foto dari Laptop / HP</small>
+                                            <input type="file" id="edit-about-image-file" class="form-control-file-custom" accept="image/*">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="submit" class="btn btn-primary px-4 py-2">
+                                        <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Seluruh Perubahan Tentang Kami
+                                    </button>
+                                    <button type="button" class="btn btn-outline px-4 py-2" onclick="resetAboutText()">
+                                        <i class="fa-solid fa-rotate-left me-1"></i> Reset ke Default
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Edit Tanya Jawab (FAQ) -->
+                    <div id="content-sub-faq" class="content-subtab-pane">
+                        <div class="kotak-kecil preview-wrapper-card mb-4 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark-green"><i class="fa-solid fa-eye text-gold me-2"></i> Live Preview: Tampilan Section Tanya Jawab (FAQ)</h5>
+                                    <small class="text-muted">Pratinjau visual penuh dan interaktif sesuai tampilan asli di halaman web customer.</small>
+                                </div>
+                                <span class="badge bg-light text-success border px-3 py-2 fw-bold">Live Preview Aktif</span>
+                            </div>
+
+                            <div class="mock-browser">
+                                <div class="mock-browser-bar">
+                                    <div class="mock-dots">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                    </div>
+                                    <div class="mock-url-bar">
+                                        <i class="fa-solid fa-lock me-1"></i>
+                                    </div>
+                                </div>
+
+                                <div class="preview-faq-web-box text-center p-4">
+                                    <span class="badge badge-pill-subtle text-uppercase px-3 py-2 rounded-pill fw-bold mb-2" id="preview-faq-badge-display">TANYA JAWAB</span>
+                                    <h4 class="fw-bold section-heading-custom text-dark-green mb-1 mt-1" id="preview-faq-title-display">Pertanyaan Umum (FAQ)</h4>
+                                    <p class="text-muted small mb-4" id="preview-faq-desc-display">Punya pertanyaan seputar cara pesan, pengiriman, dan kualitas soto kami?</p>
+                                    
+                                    <div id="preview-faq-accordion-display" class="d-flex flex-column gap-3 text-start mx-auto" style="max-width: 820px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kotak-kecil p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3 flex-wrap gap-2">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark-green"><i class="fa-solid fa-pen-to-square text-primary me-2"></i> Form Sunting Section & Daftar Pertanyaan FAQ</h5>
+                                    <small class="text-muted">Ubah judul, deskripsi, serta kelola butir pertanyaan dan jawaban FAQ di bawah ini.</small>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="openAddFaqModal()">
+                                    <i class="fa-solid fa-plus me-1"></i> Tambah FAQ Baru
+                                </button>
+                            </div>
+
+                            <form id="faq-header-form" class="mb-4 pb-4 border-bottom">
+                                <div class="form-grid-2col mb-3">
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">Badge Tagline Section FAQ</label>
+                                        <input type="text" id="edit-faq-badge" class="form-input-custom" placeholder="Contoh: TANYA JAWAB" required>
+                                    </div>
+                                    <div class="form-group text-start mb-0">
+                                        <label class="form-label-custom">Judul Utama FAQ</label>
+                                        <input type="text" id="edit-faq-title" class="form-input-custom" placeholder="Contoh: Pertanyaan Umum (FAQ)" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3 text-start">
+                                    <label class="form-label-custom">Deskripsi Singkat FAQ</label>
+                                    <textarea id="edit-faq-desc" class="form-input-custom" rows="2" placeholder="Deskripsi singkat..." required></textarea>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="submit" class="btn btn-primary px-4 py-2">
+                                        <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Header FAQ
+                                    </button>
+                                    <button type="button" class="btn btn-outline px-4 py-2" onclick="resetFaqText()">
+                                        <i class="fa-solid fa-rotate-left me-1"></i> Reset FAQ ke Default
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold text-dark-green mb-0"><i class="fa-solid fa-list-ul text-gold me-2"></i> Daftar Butir Pertanyaan FAQ Aktif</h6>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50px;">No</th>
+                                            <th style="width: 32%;">Pertanyaan</th>
+                                            <th>Jawaban</th>
+                                            <th style="width: 150px; text-align: center;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="faq-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Riwayat Login -->
             <section id="riwayat-login" class="tab-content">
                 <div class="content-section p-4">
@@ -342,7 +729,7 @@
         </main>
     </div>
 
-    <!-- tambah atau Edit Menu -->
+    <!--Form Tambah atau Edit Menu -->
     <div class="modal-overlay" id="add-menu-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -368,7 +755,9 @@
 
                 <div class="form-group">
                     <label for="menu-category">Kategori Menu *</label>
-                    <select id="menu-category" required onchange="handleCategorySelectChange()"></select>
+                    <select id="menu-category" required onchange="handleCategorySelectChange()">
+                        <!-- Diisi otomatis di localStorage -->
+                    </select>
                     <div id="new-category-wrapper" class="mt-2 d-none">
                         <input type="text" id="new-category-name" class="form-input-custom" placeholder="Ketik nama kategori baru (cth: Paket Hemat)">
                     </div>
@@ -420,7 +809,32 @@
         </div>
     </div>
 
-    <!-- kelola Ongkir -->
+    <!--Form Tambah atau Edit Item FAQ -->
+    <div class="modal-overlay" id="faq-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="faq-modal-title">Tambah Pertanyaan FAQ</h3>
+                <button class="close-btn" onclick="toggleModal('faq-modal')">&times;</button>
+            </div>
+            <form id="faq-form">
+                <input type="hidden" id="faq-id">
+                <div class="form-group text-start">
+                    <label for="faq-question">Pertanyaan *</label>
+                    <input type="text" id="faq-question" class="form-input-custom" placeholder="Contoh: Apakah kuah soto dikirim terpisah?" required>
+                </div>
+                <div class="form-group text-start">
+                    <label for="faq-answer">Jawaban *</label>
+                    <textarea id="faq-answer" class="form-input-custom" rows="4" placeholder="Tuliskan jawaban jelas untuk customer..." required></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="toggleModal('faq-modal')">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan FAQ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--Form Kelola Daerah Ongkir -->
     <div class="modal-overlay" id="edit-ongkir-modal">
         <div class="modal-box" style="max-width: 580px;">
             <div class="modal-header">
