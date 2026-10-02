@@ -31,7 +31,7 @@
 
             <div class="login-card-body">
                 <div class="login-greeting">
-                    <h4>Selamat Datang!</h4>
+                    <h4>Selamat Datang! </h4>
                     <p>Silakan masuk dengan akun admin untuk mengelola pesanan & menu restoran.</p>
                 </div>
                 
@@ -49,6 +49,7 @@
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock input-icon-left"></i>
                             <input type="password" id="admin-pass" class="login-input" placeholder="Masukkan kata sandi" required>
+                            <!-- Tombol Show / Hide Password -->
                             <button type="button" class="btn-toggle-pw-admin" onclick="toggleAdminPasswordVisibility()" title="Show / Hide Password">
                                 <i class="fa-regular fa-eye" id="eye-icon-admin"></i>
                                 <span id="eye-text-admin">Show</span>
@@ -75,7 +76,7 @@
         </div>
     </div>
 
-    <!-- MAIN WRAPPER ADMIN -->
+    <!--Main Admin -->
     <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
@@ -89,6 +90,7 @@
             <nav class="sidebar-menu">
                 <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-menu', this)"><i class="fa-solid fa-utensils"></i> Kelola Menu</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-pesanan', this)"><i class="fa-solid fa-receipt"></i> Pesanan Masuk</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('riwayat-login', this)"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Login</a>
                 <a href="javascript:void(0)" class="nav-item logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Keluar Admin</a>
             </nav>
@@ -110,12 +112,17 @@
             <section id="dashboard" class="tab-content active-tab">
                 <div class="kotak-atas mb-4">
                     <div class="teks-atas">
-                        <h3>Selamat Datang, Admin Dapur!</h3>
+                        <h3>Selamat Datang, Admin Dapur! </h3>
                         <p>Dapur Soto Banjar Selera Nusantara siap melayani pesanan delivery online wilayah Jabodetabek.</p>
                         <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
                             <span class="label-buka"><i class="fa-solid fa-circle text-success"></i> Dapur Delivery Buka</span>
                             <span class="jam-toko"><i class="fa-regular fa-clock me-1"></i> Jam Layanan: 08.00 - 21.00 WIB</span>
                         </div>
+                    </div>
+                    <div class="tombol-atas">
+                        <button class="btn-cek-order" onclick="switchTab('kelola-pesanan', document.querySelectorAll('.sidebar-menu .nav-item')[2])">
+                            <i class="fa-solid fa-bell me-1"></i> Cek Pesanan Masuk
+                        </button>
                     </div>
                 </div>
 
@@ -142,6 +149,35 @@
                             <span class="stat-value" id="total-income-count">Rp 0</span>
                             <span class="stat-label">Total Omset Delivery</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="bagian-tengah mb-4">
+                    <div class="kotak-kecil">
+                        <h4 class="judul-kotak"><i class="fa-solid fa-bars-progress text-primary"></i> Status Alur Pesanan</h4>
+                        <div class="antrean-grid">
+                            <div class="kartu-status garis-kuning">
+                                <span class="teks-kecil">Perlu Dimasak & Diantar</span>
+                                <strong class="angka-antrean text-warning" id="count-diproses">0</strong>
+                                <small class="text-muted">Status: Diproses</small>
+                            </div>
+                            <div class="kartu-status garis-hijau">
+                                <span class="teks-kecil">Selesai Terkirim</span>
+                                <strong class="angka-antrean text-success" id="count-selesai">0</strong>
+                                <small class="text-muted">Tiba di Customer</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kotak-kecil">
+                        <div class="card-header-action">
+                            <h4 class="judul-kotak mb-0"><i class="fa-solid fa-map-location-dot text-success"></i> Jangkauan Kurir & Tarif</h4>
+                            <button type="button" class="btn btn-outline btn-sm py-1 px-3" onclick="openOngkirModal()">
+                                <i class="fa-solid fa-gear me-1"></i> Kelola Daerah & Tarif
+                            </button>
+                        </div>
+                        <p class="small text-muted mb-3">Tarif standar ongkos kirim delivery per area yang aktif:</p>
+                        <div class="list-daerah" id="ongkir-display-container"></div>
                     </div>
                 </div>
             </section>
@@ -175,6 +211,42 @@
                 </div>
             </section>
 
+            <!-- Kelola Pesanan -->
+            <section id="kelola-pesanan" class="tab-content">
+                <div class="content-section p-4">
+                    <div class="section-header">
+                        <h3><i class="fa-solid fa-motorcycle text-primary"></i> Pesanan Online Delivery</h3>
+                        <div class="filter-group">
+                            <label for="order-filter"><i class="fa-solid fa-filter"></i> Filter Status:</label>
+                            <select id="order-filter" onchange="filterOrders()">
+                                <option value="Semua">Semua Status</option>
+                                <option value="Diproses">Diproses</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu Masuk</th>
+                                    <th>ID Order</th>
+                                    <th>Penerima & Kontak</th>
+                                    <th>Alamat Pengiriman</th>
+                                    <th>Rincian Menu (Qty)</th>
+                                    <th>Total Bayar</th>
+                                    <th>Pembayaran</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <!-- Riwayat Login -->
             <section id="riwayat-login" class="tab-content">
                 <div class="content-section p-4">
@@ -202,7 +274,7 @@
         </main>
     </div>
 
-    <!-- Form Tambah atau Edit Menu -->
+    <!-- Tambah atau Edit Menu -->
     <div class="modal-overlay" id="add-menu-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -228,8 +300,7 @@
 
                 <div class="form-group">
                     <label for="menu-category">Kategori Menu *</label>
-                    <select id="menu-category" required onchange="handleCategorySelectChange()">
-                    </select>
+                    <select id="menu-category" required onchange="handleCategorySelectChange()"></select>
                     <div id="new-category-wrapper" class="mt-2 d-none">
                         <input type="text" id="new-category-name" class="form-input-custom" placeholder="Ketik nama kategori baru (cth: Paket Hemat)">
                     </div>
@@ -278,6 +349,68 @@
                     <button type="submit" class="btn btn-primary">Simpan Menu</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Tambah atau Edit Daerah Ongkir -->
+    <div class="modal-overlay" id="edit-ongkir-modal">
+        <div class="modal-box" style="max-width: 580px;">
+            <div class="modal-header">
+                <div>
+                    <h3 class="mb-0"><i class="fa-solid fa-truck-fast text-success me-2"></i> Kelola Jangkauan & Tarif Ongkir</h3>
+                    <small class="text-muted">Tambah daerah baru, ubah harga, atau hapus area pengiriman.</small>
+                </div>
+                <button class="close-btn" onclick="toggleModal('edit-ongkir-modal')">&times;</button>
+            </div>
+
+            <div class="table-container mb-3" style="max-height: 240px; overflow-y: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Daerah / Kota</th>
+                            <th>Tarif (Rp)</th>
+                            <th style="width: 80px; text-align: center;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dynamic-ongkir-table-body"></tbody>
+                </table>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 border mb-3 text-start">
+                <strong class="d-block text-dark-green small mb-2"><i class="fa-solid fa-plus-circle text-primary me-1"></i> Tambah Daerah Pengiriman Baru</strong>
+                <div class="form-grid-2col mb-2">
+                    <div>
+                        <label class="extra-small fw-bold text-muted mb-1">Nama Daerah / Kota</label>
+                        <input type="text" id="new-ongkir-name" class="form-input-custom" placeholder="Contoh: Cikarang / Bekasi Barat">
+                    </div>
+                    <div>
+                        <label class="extra-small fw-bold text-muted mb-1">Tarif Ongkos Kirim (Rp)</label>
+                        <input type="number" id="new-ongkir-price" class="form-input-custom" placeholder="Contoh: 20000" min="0">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm w-100" onclick="addNewOngkirArea()">
+                    <i class="fa-solid fa-plus me-1"></i> Tambahkan ke Daftar
+                </button>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" onclick="toggleModal('edit-ongkir-modal')">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Konfirmasi Selesai Pesanan -->
+    <div class="modal-overlay" id="confirm-order-modal">
+        <div class="modal-box text-center">
+            <div class="confirm-icon">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3>Konfirmasi Pengantaran</h3>
+            <p>Tandai pesanan <strong id="confirm-order-id">ORD-000</strong> sebagai sudah selesai diantar?</p>
+            <div class="modal-actions-center">
+                <button type="button" class="btn btn-outline" onclick="closeConfirmModal()">Batal</button>
+                <button type="button" class="btn btn-primary" id="btn-confirm-submit">Ya, Selesaikan</button>
+            </div>
         </div>
     </div>
 
