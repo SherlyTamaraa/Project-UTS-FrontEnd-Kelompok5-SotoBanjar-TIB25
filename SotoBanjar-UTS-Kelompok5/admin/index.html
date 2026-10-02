@@ -31,7 +31,7 @@
 
             <div class="login-card-body">
                 <div class="login-greeting">
-                    <h4>Selamat Datang! </h4>
+                    <h4>Selamat Datang! 👋</h4>
                     <p>Silakan masuk dengan akun admin untuk mengelola pesanan & menu restoran.</p>
                 </div>
                 
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <!--Main Admin -->
+    <!-- Main Admin -->
     <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
@@ -91,6 +91,8 @@
                 <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-menu', this)"><i class="fa-solid fa-utensils"></i> Kelola Menu</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-pesanan', this)"><i class="fa-solid fa-receipt"></i> Pesanan Masuk</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('laporan-omset', this)"><i class="fa-solid fa-chart-pie"></i> Rincian Omset</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-review', this)"><i class="fa-solid fa-comments"></i> Kelola Ulasan</a>
                 <a href="javascript:void(0)" class="nav-item" onclick="switchTab('riwayat-login', this)"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Login</a>
                 <a href="javascript:void(0)" class="nav-item logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Keluar Admin</a>
             </nav>
@@ -112,7 +114,7 @@
             <section id="dashboard" class="tab-content active-tab">
                 <div class="kotak-atas mb-4">
                     <div class="teks-atas">
-                        <h3>Selamat Datang, Admin Dapur! </h3>
+                        <h3>Selamat Datang, Admin Dapur! 👋</h3>
                         <p>Dapur Soto Banjar Selera Nusantara siap melayani pesanan delivery online wilayah Jabodetabek.</p>
                         <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
                             <span class="label-buka"><i class="fa-solid fa-circle text-success"></i> Dapur Delivery Buka</span>
@@ -247,6 +249,72 @@
                 </div>
             </section>
 
+            <!-- Rincian Omset & Daftar Pemesan -->
+            <section id="laporan-omset" class="tab-content">
+                <div class="content-section p-4">
+                    <div class="section-header mb-3 flex-wrap gap-3">
+                        <div>
+                            <h3 class="mb-1"><i class="fa-solid fa-chart-pie text-gold"></i> Rincian Omset & Daftar Pemesan</h3>
+                            <p class="text-muted small mb-0">Pantau omset berdasarkan rentang waktu beserta data pelanggan yang melakukan pemesanan.</p>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="omset-filter"><i class="fa-solid fa-calendar-days text-primary"></i> Filter Periode:</label>
+                            <select id="omset-filter" onchange="filterOmsetDashboard()">
+                                <option value="semua">Semua Waktu</option>
+                                <option value="hari">Hari Ini</option>
+                                <option value="minggu">Minggu Ini (7 Hari)</option>
+                                <option value="bulan">Bulan Ini</option>
+                                <option value="tahun">Tahun Ini</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="omset-summary-bar mb-4 p-3 rounded-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-gold-custom" id="omset-period-badge">Semua Waktu</span>
+                            <span class="small text-muted" id="omset-order-count-text">Menampilkan 0 pesanan</span>
+                        </div>
+                        <div class="text-end">
+                            <span class="small text-muted d-block" style="font-size: 0.8rem;">Total Omset Periode:</span>
+                            <strong class="fs-4 text-dark-green" id="omset-period-total">Rp 0</strong>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu & Tanggal</th>
+                                    <th>ID Order</th>
+                                    <th>Nama Pemesan</th>
+                                    <th>Kontak & Kota</th>
+                                    <th>Menu yang Dipesan</th>
+                                    <th>Total Bayar</th>
+                                    <th>Metode</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-recent-orders"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kelola Ulasan & Balasan Review -->
+            <section id="kelola-review" class="tab-content">
+                <div class="content-section p-4">
+                    <div class="section-header">
+                        <div>
+                            <h3 class="mb-1"><i class="fa-solid fa-comments text-gold"></i> Kelola & Balas Ulasan Pelanggan</h3>
+                            <p class="text-muted small mb-0">Baca ulasan customer dan kirimkan respon resmi restoran yang langsung tampil di website.</p>
+                        </div>
+                    </div>
+
+                    <div id="admin-reviews-container" class="admin-review-grid"></div>
+                </div>
+            </section>
+
             <!-- Riwayat Login -->
             <section id="riwayat-login" class="tab-content">
                 <div class="content-section p-4">
@@ -274,7 +342,7 @@
         </main>
     </div>
 
-    <!-- Tambah atau Edit Menu -->
+    <!-- tambah atau Edit Menu -->
     <div class="modal-overlay" id="add-menu-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -352,7 +420,7 @@
         </div>
     </div>
 
-    <!-- Tambah atau Edit Daerah Ongkir -->
+    <!-- kelola Ongkir -->
     <div class="modal-overlay" id="edit-ongkir-modal">
         <div class="modal-box" style="max-width: 580px;">
             <div class="modal-header">
@@ -399,7 +467,7 @@
         </div>
     </div>
 
-    <!--Konfirmasi Selesai Pesanan -->
+    <!-- Konfirmasi Selesai Pesanan -->
     <div class="modal-overlay" id="confirm-order-modal">
         <div class="modal-box text-center">
             <div class="confirm-icon">
@@ -411,6 +479,33 @@
                 <button type="button" class="btn btn-outline" onclick="closeConfirmModal()">Batal</button>
                 <button type="button" class="btn btn-primary" id="btn-confirm-submit">Ya, Selesaikan</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Balas Ulasan Customer -->
+    <div class="modal-overlay" id="reply-review-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-reply text-gold"></i> Balas Ulasan Pelanggan</h3>
+                <button class="close-btn" onclick="toggleModal('reply-review-modal')">&times;</button>
+            </div>
+            <form id="reply-review-form">
+                <input type="hidden" id="reply-review-index">
+                <div class="p-3 bg-light rounded-3 mb-3 border text-start">
+                    <div class="fw-bold small text-dark" id="reply-reviewer-name">Customer</div>
+                    <div class="small text-muted mb-2" id="reply-reviewer-comment">"Ulasan customer..."</div>
+                </div>
+
+                <div class="form-group text-start">
+                    <label for="reply-text">Tulis Respon Resmi Restoran *</label>
+                    <textarea id="reply-text" rows="3" required placeholder="Contoh: Terima kasih atas kunjungannya Kak! Senang bisa melayani Anda."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="toggleModal('reply-review-modal')">Batal</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane me-1"></i> Kirimkan Balasan</button>
+                </div>
+            </form>
         </div>
     </div>
 
