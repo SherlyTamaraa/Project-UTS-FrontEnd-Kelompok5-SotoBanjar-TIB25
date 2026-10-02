@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Soto Banjar Selera Nusantara</title>
+    <link rel="icon" type="image/jpeg" href="../assets/logo.jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
@@ -12,11 +13,73 @@
 </head>
 <body>
 
-    <div class="admin-wrapper">
-        <!-- Sidebar Navigation -->
+    <!-- Login Khusus Admin -->
+    <div id="admin-login-lock" class="admin-login-overlay">
+        <div class="admin-login-card">
+            <div class="login-header-banner">
+                <span class="banner-badge">
+                    <i class="fa-solid fa-lock"></i> Area Khusus Pengelola
+                </span>
+                <div class="login-brand-wrapper">
+                    <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="admin-login-logo">
+                    <div class="login-brand-text">
+                        <h3 class="banner-title">Soto Banjar</h3>
+                        <p class="banner-subtitle">Selera Nusantara • Admin Panel</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-card-body">
+                <div class="login-greeting">
+                    <h4>Selamat Datang!</h4>
+                    <p>Silakan masuk dengan akun admin untuk mengelola pesanan & menu restoran.</p>
+                </div>
+                
+                <form id="admin-login-form">
+                    <div class="login-form-group">
+                        <label for="admin-user">Username Admin</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user input-icon-left"></i>
+                            <input type="text" id="admin-user" class="login-input" placeholder="Masukkan username admin" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="admin-pass">Kata Sandi</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon-left"></i>
+                            <input type="password" id="admin-pass" class="login-input" placeholder="Masukkan kata sandi" required>
+                            <button type="button" class="btn-toggle-pw-admin" onclick="toggleAdminPasswordVisibility()" title="Show / Hide Password">
+                                <i class="fa-regular fa-eye" id="eye-icon-admin"></i>
+                                <span id="eye-text-admin">Show</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="admin-login-error" class="login-error-alert d-none">
+                        <i class="fa-solid fa-circle-exclamation"></i> Username atau kata sandi admin salah!
+                    </div>
+
+                    <button type="submit" class="btn-login-submit">
+                        <span>Masuk ke Dashboard</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <a href="../customer/index.html" class="link-back-customer">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Web Customer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Admin -->
+    <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
-                <i class="fa-solid fa-bowl-food logo-icon"></i>
+                <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="sidebar-logo-img">
                 <div class="brand-text">
                     <span class="brand-name">Soto Banjar</span>
                     <span class="brand-sub">Admin Panel Delivery</span>
@@ -25,15 +88,12 @@
 
             <nav class="sidebar-menu">
                 <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-menu', this)"><i class="fa-solid fa-utensils"></i> Kelola Menu</a>
-                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('kelola-pesanan', this)"><i class="fa-solid fa-receipt"></i> Pesanan Masuk</a>
-                <a href="../customer/index.html" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Ke Web Customer</a>
+                <a href="javascript:void(0)" class="nav-item" onclick="switchTab('riwayat-login', this)"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Login</a>
+                <a href="javascript:void(0)" class="nav-item logout" onclick="logoutAdmin()"><i class="fa-solid fa-right-from-bracket"></i> Keluar Admin</a>
             </nav>
         </aside>
 
-        <!-- Main Area -->
         <main class="main-content">
-            <!-- Header -->
             <header class="admin-header">
                 <div class="header-title">
                     <h2 id="page-title">Dashboard Kelola Toko</h2>
@@ -41,13 +101,24 @@
                 </div>
                 <div class="admin-profile">
                     <i class="fa-solid fa-circle-user avatar"></i>
-                    <span>Admin Utama</span>
+                    <span id="admin-name-display">Admin Utama</span>
                 </div>
             </header>
 
             <!-- Dashboard -->
             <section id="dashboard" class="tab-content active-tab">
-                <div class="stats-grid">
+                <div class="kotak-atas mb-4">
+                    <div class="teks-atas">
+                        <h3>Selamat Datang, Admin Dapur!</h3>
+                        <p>Dapur Soto Banjar Selera Nusantara siap melayani pesanan delivery online wilayah Jabodetabek.</p>
+                        <div class="d-flex align-items-center gap-3 mt-2 flex-wrap">
+                            <span class="label-buka"><i class="fa-solid fa-circle text-success"></i> Dapur Delivery Buka</span>
+                            <span class="jam-toko"><i class="fa-regular fa-clock me-1"></i> Jam Layanan: 08.00 - 21.00 WIB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid mb-4">
                     <div class="stat-card">
                         <div class="stat-icon bg-red"><i class="fa-solid fa-bowl-food"></i></div>
                         <div class="stat-info">
@@ -68,151 +139,37 @@
                         <div class="stat-icon bg-gold"><i class="fa-solid fa-money-bill-wave"></i></div>
                         <div class="stat-info">
                             <span class="stat-value" id="total-income-count">Rp 0</span>
-                            <span class="stat-label">Total Pendapatan Delivery</span>
+                            <span class="stat-label">Total Omset Delivery</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Kelola Menu -->
-            <section id="kelola-menu" class="tab-content">
-                <div class="content-section">
+            <!-- Riwayat Login -->
+            <section id="riwayat-login" class="tab-content">
+                <div class="content-section p-4">
                     <div class="section-header">
-                        <h3><i class="fa-solid fa-list-check"></i> Kelola Daftar Menu</h3>
-                        <button class="btn btn-primary" onclick="toggleModal('add-menu-modal')">
-                            <i class="fa-solid fa-plus"></i> Tambah Menu Baru
-                        </button>
+                        <h3><i class="fa-solid fa-clock-rotate-left text-primary"></i> Riwayat Login Pengguna & Admin</h3>
+                        <button class="btn btn-sm btn-delete" onclick="clearLoginHistory()"><i class="fa-solid fa-trash"></i> Bersihkan Log</button>
                     </div>
-
                     <div class="table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Foto</th>
-                                    <th>Nama Menu</th>
-                                    <th>Kategori</th>
-                                    <th>Harga (Rp)</th>
-                                    <th>Badge</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="menu-table-body">
-                                <!-- Data menu dalam script.js -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Kelola Pesanan -->
-            <section id="kelola-pesanan" class="tab-content">
-                <div class="content-section">
-                    <div class="section-header">
-                        <h3><i class="fa-solid fa-motorcycle text-primary"></i> Pesanan Online Delivery (Jabodetabek)</h3>
-                        
-                        <!-- Filter Status Pesanan -->
-                        <div class="filter-group">
-                            <label for="order-filter"><i class="fa-solid fa-filter"></i> Filter Status:</label>
-                            <select id="order-filter" onchange="filterOrders()">
-                                <option value="Semua">Semua Status</option>
-                                <option value="Diproses">Diproses</option>
-                                <option value="Selesai">Selesai</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
+                                    <th>ID Log</th>
                                     <th>Waktu Masuk</th>
-                                    <th>ID Order</th>
-                                    <th>Penerima & Kontak</th>
-                                    <th>Alamat Pengiriman (Jabodetabek)</th>
-                                    <th>Rincian Menu (Qty)</th>
-                                    <th>Total Bayar</th>
-                                    <th>Pembayaran</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th>Nama / Akun</th>
+                                    <th>Peran (Role)</th>
+                                    <th>Status Login</th>
+                                    <th>Perangkat / IP</th>
                                 </tr>
                             </thead>
-                            <tbody id="order-table-body">
-                                <!-- Data pesanan dalam script.js dari localStorage -->
-                            </tbody>
+                            <tbody id="login-history-table-body"></tbody>
                         </table>
                     </div>
                 </div>
             </section>
         </main>
-    </div>
-
-    <!-- Form Tambah / Edit Menu -->
-    <div class="modal-overlay" id="add-menu-modal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modal-title">Tambah Menu Baru</h3>
-                <button class="close-btn" onclick="toggleModal('add-menu-modal')">&times;</button>
-            </div>
-            <form id="menu-form">
-                <input type="hidden" id="menu-id">
-                
-                <div class="form-group">
-                    <label for="menu-name">Nama Menu *</label>
-                    <input type="text" id="menu-name" placeholder="Contoh: Soto Banjar Spesial" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="menu-image">URL Gambar Menu *</label>
-                    <input type="url" id="menu-image" placeholder="https://images.unsplash.com/..." required>
-                </div>
-
-                <div class="form-group">
-                    <label for="menu-category">Kategori Menu *</label>
-                    <select id="menu-category" required>
-                        <option value="soto">Soto & Sup</option>
-                        <option value="sampingan">Sate & Sampingan</option>
-                        <option value="minuman">Minuman Segar</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="menu-price">Harga (Rp) *</label>
-                    <input type="number" id="menu-price" placeholder="35000" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="menu-badge">Badge Label (Opsional)</label>
-                    <input type="text" id="menu-badge" placeholder="Contoh: Terlaris / Populer">
-                </div>
-
-                <div class="form-group">
-                    <label for="menu-desc">Deskripsi Singkat</label>
-                    <input type="text" id="menu-desc" placeholder="Contoh: Disajikan lengkap dengan ketupat dan perkedel">
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-outline" onclick="toggleModal('add-menu-modal')">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan Menu</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Konfirmasi Selesai Pesanan -->
-    <div class="modal-overlay" id="confirm-order-modal">
-        <div class="modal-box text-center">
-            <div class="confirm-icon">
-                <i class="fa-solid fa-circle-question"></i>
-            </div>
-            <h3>Konfirmasi Pengantaran</h3>
-            <p>Tandai pesanan <strong id="confirm-order-id">ORD-000</strong> sebagai sudah selesai diantar?</p>
-            
-            <div class="modal-actions-center">
-                <button type="button" class="btn btn-outline" onclick="closeConfirmModal()">Batal</button>
-                <button type="button" class="btn btn-primary" id="btn-confirm-submit">Ya, Selesaikan</button>
-            </div>
-        </div>
     </div>
 
     <script src="script.js"></script>
