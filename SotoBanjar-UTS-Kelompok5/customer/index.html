@@ -26,7 +26,6 @@
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
                 </button>
-                <a href="#menu" class="btn btn-gold d-none d-sm-inline-block">Pesan Sekarang</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,7 +37,6 @@
                     <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
                     <li class="nav-item"><a class="nav-link" href="#area-pengiriman">Area Kirim</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link btn-admin-link" href="../admin/index.html"><i class="fa-solid fa-lock me-1"></i> Admin</a></li>
                 </ul>
             </div>
         </div>
@@ -210,7 +208,6 @@
                 <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-wallet me-1"></i> Metode Pembayaran</h6>
                 <div class="mb-3">
                     <select id="cust-payment" class="form-select form-select-sm">
-                        <option value="Tunai / COD">Tunai saat Pesanan Tiba (COD)</option>
                         <option value="QRIS">QRIS (Gopay, OVO, Dana, ShopeePay, BCA)</option>
                         <option value="Transfer Bank BCA">Transfer Bank BCA Virtual Account</option>
                         <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
@@ -361,17 +358,16 @@
 
                 <!-- Peta / Gambar Preview dengan Badge & Tombol Google Maps -->
                 <div class="col-lg-7">
-                    <div class="map-preview-card h-100 rounded-4 shadow-sm position-relative overflow-hidden">
-                        <!-- Floating Badge Kiri Atas -->
-                        <div class="map-floating-badge p-2 px-3 rounded-3 shadow-sm bg-white position-absolute">
-                            <div class="fw-bold small text-dark"><i class="fa-solid fa-location-dot text-danger me-1"></i> Soto Banjar Selera Nusantara</div>
-                            <div class="text-muted extra-small">Samping area parkir luas & ramah keluarga</div>
-                        </div>
-
-                        <!-- Tombol Kanan Bawah Google Maps -->
-                        <a href="https://maps.google.com" target="_blank" class="btn btn-gmaps-custom position-absolute">
-                            <i class="fa-regular fa-compass me-1"></i> Buka di Google Maps
-                        </a>
+                    <div class="h-100 rounded-4 shadow-sm overflow-hidden border bg-light" style="min-height: 380px;">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=Wisma%20Atlet%20Tower%203%20Kemayoran%20Jakarta%20Pusat&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; min-height: 380px; width: 100%; display: block;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>
