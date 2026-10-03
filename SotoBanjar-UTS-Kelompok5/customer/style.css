@@ -480,3 +480,23 @@ body {
     color: #16281E;
     transform: translateY(-2px);
 }
+
+.offcanvas-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+#cart-items-container {
+    max-height: 180px !important;
+    overflow-y: auto;
+    flex-shrink: 0;
+    padding-right: 4px;
+}
+
+#checkout-form {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-top: 8px;
+}
