@@ -119,6 +119,84 @@
         </div>
     </section>
 
+    <!-- Form Auth (Login & Register Customer dengan Tombol Show / Hide) -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+            <div class="modal-content border-0 shadow rounded-4 overflow-hidden">
+                <div class="modal-header bg-dark-green text-white border-0 pb-2">
+                    <h5 class="modal-title fw-bold" id="authModalTitle"><i class="fa-solid fa-user text-gold me-2"></i> Masuk Akun</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <ul class="nav nav-pills nav-fill mb-3" id="authTabs">
+                        <li class="nav-item">
+                            <button class="nav-link active fw-bold small" id="tab-login-btn" onclick="toggleAuthTab('login')">Masuk</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="tab-register-btn" onclick="toggleAuthTab('register')">Daftar Akun</button>
+                        </li>
+                    </ul>
+
+                    <!-- Form Login -->
+                    <form id="form-login">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Email / Nomor HP</label>
+                            <input type="text" id="login-email" class="form-control" placeholder="nama@email.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Kata Sandi</label>
+                            <div class="input-group">
+                                <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                                <button class="btn btn-outline-secondary btn-toggle-pw" type="button" onclick="toggleCustomerPassword('login-password', 'eye-icon-login', 'eye-text-login')" title="Show / Hide Password">
+                                    <i class="fa-regular fa-eye" id="eye-icon-login"></i>
+                                    <span id="eye-text-login" class="ms-1 small fw-bold">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gold w-100 py-2 fw-bold">Masuk Sekarang</button>
+                    </form>
+
+                    <!-- Form Register -->
+                    <form id="form-register" class="d-none">
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold">Nama Lengkap</label>
+                            <input type="text" id="reg-name" class="form-control form-control-sm" placeholder="Contoh: Sarah Anindya" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold">Email</label>
+                            <input type="email" id="reg-email" class="form-control form-control-sm" placeholder="sarah@email.com" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold">Nomor WhatsApp</label>
+                            <input type="tel" id="reg-phone" class="form-control form-control-sm" placeholder="081234567890" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Kata Sandi</label>
+                            <div class="input-group input-group-sm">
+                                <input type="password" id="reg-password" class="form-control form-control-sm" placeholder="Minimal 6 karakter" required>
+                                <button class="btn btn-outline-secondary btn-toggle-pw" type="button" onclick="toggleCustomerPassword('reg-password', 'eye-icon-reg', 'eye-text-reg')" title="Show / Hide Password">
+                                    <i class="fa-regular fa-eye" id="eye-icon-reg"></i>
+                                    <span id="eye-text-reg" class="ms-1 extra-small fw-bold">Show</span>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gold w-100 py-2 fw-bold">Daftar & Buat Akun</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifikasi -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="actionToast" class="toast align-items-center text-white bg-dark-green border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>

@@ -106,7 +106,7 @@ body {
 }
 .btn-cart:hover { background-color: var(--brand-gold); color: var(--brand-dark-green); }
 
-/* Menu Section Styles */
+/* Menu */
 .location-section { background-color: #FAF8F5; }
 .section-title { font-weight: 800; color: var(--brand-dark-green); }
 
@@ -173,3 +173,24 @@ body {
 .bg-danger { background-color: #fee2e2 !important; color: #991b1b !important; }
 .bg-warning { background-color: #fef3c7 !important; color: #92400e !important; }
 .bg-info { background-color: #e0f2fe !important; color: #0369a1 !important; }
+
+/* Tombol Show / Hide Password Customer */
+.btn-toggle-pw {
+    border-color: #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    color: #64748b !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    user-select: none !important;
+}
+
+.btn-toggle-pw:hover, .btn-toggle-pw:focus {
+    background-color: #e2e8f0 !important;
+    color: var(--brand-dark-green) !important;
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}

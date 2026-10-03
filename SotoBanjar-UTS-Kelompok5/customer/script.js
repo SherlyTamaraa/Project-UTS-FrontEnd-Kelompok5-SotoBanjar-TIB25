@@ -1,3 +1,28 @@
+// Toggle show dan hide password
+window.toggleCustomerPassword = function(inputId, iconId, textId) {
+    var input = document.getElementById(inputId);
+    var icon = document.getElementById(iconId);
+    var text = document.getElementById(textId);
+
+    if (!input) return;
+
+    if (input.type === "password") {
+        input.type = "text";
+        if (icon) {
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+        if (text) text.textContent = "Hide";
+    } else {
+        input.type = "password";
+        if (icon) {
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+        if (text) text.textContent = "Show";
+    }
+};
+
 function setupNavbarActiveLinks() {
     var navLinks = document.querySelectorAll(".custom-navbar .navbar-nav .nav-link");
     navLinks.forEach(function(link) {
@@ -9,7 +34,7 @@ function setupNavbarActiveLinks() {
 }
 
 var defaultMenuData = [
-   {
+    {
         id: 1,
         name: "Soto Banjar Otentik",
         category: "makanan",
@@ -260,8 +285,36 @@ function getStoredCategories() {
     return defaultCategories;
 }
 
+function getCurrentCustomer() {
+    var cur = localStorage.getItem("sotoBanjarCurrentCustomer");
+    if (cur) {
+        try { return JSON.parse(cur); } catch (e) { return null; }
+    }
+    return null;
+}
+
+function promptCustomerAuth(pesan) {
+    showToast(pesan || "Silakan masuk atau buat akun terlebih dahulu!");
+    var authModalEl = document.getElementById("authModal");
+    if (authModalEl && typeof bootstrap !== "undefined") {
+        var authModal = bootstrap.Modal.getOrCreateInstance(authModalEl);
+        authModal.show();
+    }
+}
+
+function showToast(msg) {
+    var toastMsgEl = document.getElementById("toastMessage");
+    if (toastMsgEl) toastMsgEl.textContent = msg;
+    var toastEl = document.getElementById("actionToast");
+    if (toastEl && typeof bootstrap !== "undefined") {
+        var t = bootstrap.Toast.getOrCreateInstance(toastEl);
+        t.show();
+    }
+}
+
 var menuData = getStoredMenu();
 var currentCategories = getStoredCategories();
+var cart = [];
 
 function sortMenuItems(items) {
     return [...items].sort(function(a, b) {
@@ -309,7 +362,7 @@ function createMenuCardHTML(item) {
                     <p class="card-text text-muted small flex-grow-1">${item.description || ""}</p>
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                         <span class="fw-bold fs-5 text-dark-green">Rp ${Number(item.price).toLocaleString("id-ID")}</span>
-                        <button type="button" class="btn btn-sm btn-gold px-3 rounded-pill" onclick="alert('Menu dipilih: ${item.name}')">
+                        <button type="button" class="btn btn-sm btn-gold px-3 rounded-pill" onclick="addToCart(${item.id})">
                             <i class="fa-solid fa-plus me-1"></i> Pesan
                         </button>
                     </div>
@@ -330,10 +383,147 @@ function renderMenu(items) {
     menuGrid.innerHTML = items.map(createMenuCardHTML).join("");
 }
 
+function addToCart(id) {
+    var user = getCurrentCustomer();
+    if (!user) {
+        promptCustomerAuth("Silakan masuk atau daftar akun terlebih dahulu untuk memesan menu!");
+        return;
+    }
+
+    var product = menuData.find(function(item) { return item.id === id; });
+    if (!product) return;
+    var exist = cart.find(function(item) { return item.id === id; });
+    if (exist) {
+        exist.qty += 1;
+    } else {
+        cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+    }
+    showToast(product.name + " ditambahkan ke pesanan!");
+}
+
+window.toggleAuthTab = function(type) {
+    var formLogin = document.getElementById("form-login");
+    var formReg = document.getElementById("form-register");
+    var btnLogin = document.getElementById("tab-login-btn");
+    var btnReg = document.getElementById("tab-register-btn");
+
+    if (type === 'login') {
+        formLogin.classList.remove("d-none");
+        formReg.classList.add("d-none");
+        btnLogin.classList.add("active");
+        btnReg.classList.remove("active");
+        document.getElementById("authModalTitle").innerHTML = '<i class="fa-solid fa-user text-gold me-2"></i> Masuk Akun';
+    } else {
+        formLogin.classList.add("d-none");
+        formReg.classList.remove("d-none");
+        btnLogin.classList.remove("active");
+        btnReg.classList.add("active");
+        document.getElementById("authModalTitle").innerHTML = '<i class="fa-solid fa-user-plus text-gold me-2"></i> Daftar Akun Baru';
+    }
+};
+
+function recordLoginHistory(username, role, status) {
+    var history = JSON.parse(localStorage.getItem("sotoBanjarLoginHistory") || "[]");
+    history.unshift({
+        id: "LOG-" + Math.floor(1000 + Math.random() * 9000),
+        username: username,
+        role: role,
+        time: new Date().toISOString(),
+        status: status,
+        ip: "127.0.0.1 (Web Local)"
+    });
+    localStorage.setItem("sotoBanjarLoginHistory", JSON.stringify(history));
+}
+
+function handleCustomerLogin(e) {
+    e.preventDefault();
+    var email = document.getElementById("login-email").value.trim();
+    var pass = document.getElementById("login-password").value.trim();
+
+    var users = JSON.parse(localStorage.getItem("sotoBanjarUsers") || "[]");
+    var found = users.find(function(u) { return (u.email === email || u.phone === email) && u.password === pass; });
+
+    if (found) {
+        localStorage.setItem("sotoBanjarCurrentCustomer", JSON.stringify(found));
+        recordLoginHistory(found.name, "Customer", "Berhasil");
+        showToast("Selamat datang kembali, " + found.name + "!");
+        closeAuthModal();
+        checkCurrentUser();
+    } else {
+        recordLoginHistory(email, "Customer", "Gagal (Salah Password)");
+        showToast("Email/No HP atau kata sandi salah!");
+    }
+}
+
+function handleCustomerRegister(e) {
+    e.preventDefault();
+    var name = document.getElementById("reg-name").value.trim();
+    var email = document.getElementById("reg-email").value.trim();
+    var phone = document.getElementById("reg-phone").value.trim();
+    var pass = document.getElementById("reg-password").value.trim();
+
+    var users = JSON.parse(localStorage.getItem("sotoBanjarUsers") || "[]");
+    if (users.some(function(u) { return u.email === email; })) {
+        showToast("Email sudah terdaftar!");
+        return;
+    }
+
+    var newUser = { name: name, email: email, phone: phone, password: pass };
+    users.push(newUser);
+    localStorage.setItem("sotoBanjarUsers", JSON.stringify(users));
+    localStorage.setItem("sotoBanjarCurrentCustomer", JSON.stringify(newUser));
+
+    recordLoginHistory(name, "Customer Baru", "Berhasil");
+    showToast("Pendaftaran berhasil! Akun Anda langsung aktif.");
+    closeAuthModal();
+    checkCurrentUser();
+}
+
+function checkCurrentUser() {
+    var userArea = document.getElementById("user-nav-area");
+    if (!userArea) return;
+    var user = getCurrentCustomer();
+
+    if (user) {
+        userArea.innerHTML = `
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-outline-gold btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-circle-user text-gold me-1"></i> Hai, ${user.name.split(" ")[0]}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><h6 class="dropdown-header">${user.name}</h6></li>
+                    <li><span class="dropdown-item-text small text-muted">${user.email}</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger small" href="javascript:void(0)" onclick="logoutCustomer()"><i class="fa-solid fa-right-from-bracket me-2"></i> Keluar</a></li>
+                </ul>
+            </div>
+        `;
+    } else {
+        userArea.innerHTML = `
+            <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#authModal">
+                <i class="fa-solid fa-user me-1"></i> Masuk / Daftar
+            </button>
+        `;
+    }
+}
+
+window.logoutCustomer = function() {
+    localStorage.removeItem("sotoBanjarCurrentCustomer");
+    checkCurrentUser();
+    showToast("Anda telah keluar dari akun.");
+};
+
+function closeAuthModal() {
+    var modalEl = document.getElementById("authModal");
+    var inst = bootstrap.Modal.getInstance(modalEl);
+    if (inst) inst.hide();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     setupNavbarActiveLinks();
     renderCategoryFilterTabs();
     renderMenu(sortMenuItems(menuData));
+    checkCurrentUser();
 
     var filterTabs = document.getElementById("filter-tabs");
     if (filterTabs) {
@@ -351,4 +541,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    var loginForm = document.getElementById("form-login");
+    if (loginForm) loginForm.addEventListener("submit", handleCustomerLogin);
+
+    var registerForm = document.getElementById("form-register");
+    if (registerForm) registerForm.addEventListener("submit", handleCustomerRegister);
 });
