@@ -30,12 +30,13 @@ window.toggleAdminPasswordVisibility = function() {
     }
 };
 
+// 23 menu
 const defaultMenuData = [
     {
         id: 1,
         name: "Soto Banjar Otentik",
         category: "makanan",
-        price: 38000,
+        price: 32000,
         badge: "Authentic",
         badgeColor: "bg-info text-dark",
         description: "Menu legendaris soto khas Kalimantan Selatan dengan racikan rempah murni pilihan.",
@@ -65,7 +66,7 @@ const defaultMenuData = [
         id: 4,
         name: "Sop Banjar Spesial",
         category: "makanan",
-        price: 36000,
+        price: 32000,
         badge: "Populer",
         badgeColor: "bg-warning text-dark",
         description: "Sop kuah bening kaya rempah pilihan khas Banjar dengan potongan ayam kampung.",
@@ -85,7 +86,7 @@ const defaultMenuData = [
         id: 6,
         name: "Nasi Sop Banjar (Campur)",
         category: "makanan",
-        price: 32000,
+        price: 35000,
         badge: "Authentic",
         badgeColor: "bg-info text-dark",
         description: "Penyajian praktis khas lokal, nasi putih langsung dicampur di dalam mangkuk kuah sop hangat.",
@@ -103,26 +104,36 @@ const defaultMenuData = [
     },
     {
         id: 8,
+        name: "Ekstra Nasi Putih Pulen",
+        category: "pendamping",
+        price: 5000,
+        badge: null,
+        badgeColor: null,
+        description: "Nasi putih pulen yang lembut dan harum.",
+        image: "../assets/nasi-putih.jpg"
+    },
+    {
+        id: 9,
         name: "Sate Ayam Bumbu Banjar (10 Tusuk)",
         category: "pendamping",
-        price: 30000,
+        price: 25000,
         badge: "Best Seller",
         badgeColor: "bg-danger",
         description: "Sate ayam dengan baluran bumbu merah khas Banjar yang manis, gurih, dan legit.",
         image: "../assets/sate-banjar.jpg"
     },
     {
-        id: 9,
+        id: 10,
         name: "Sate Ayam Bumbu Banjar (5 Tusuk)",
         category: "pendamping",
-        price: 16000,
+        price: 15000,
         badge: "Populer",
         badgeColor: "bg-warning text-dark",
         description: "Porsi setengah untuk pelengkap makan soto Anda.",
         image: "../assets/sate-5-tusuk.png"
     },
     {
-        id: 10,
+        id: 11,
         name: "Perkedel Singkong / Kentang",
         category: "pendamping",
         price: 4000,
@@ -132,7 +143,7 @@ const defaultMenuData = [
         image: "../assets/perkedel.jpg"
     },
     {
-        id: 11,
+        id: 12,
         name: "Ekstra Telur Bebek Rebus",
         category: "pendamping",
         price: 6000,
@@ -142,17 +153,17 @@ const defaultMenuData = [
         image: "../assets/telur-bebek.jpg"
     },
     {
-        id: 12,
+        id: 13,
         name: "Ekstra Suwiran Ayam Kampung",
         category: "pendamping",
-        price: 12000,
+        price: 10000,
         badge: null,
         badgeColor: null,
         description: "Porsi ekstra suwiran daging ayam kampung empuk dan manis gurih.",
         image: "../assets/ayam-suwir.png"
     },
     {
-        id: 13,
+        id: 14,
         name: "Kerupuk Udang",
         category: "pendamping",
         price: 5000,
@@ -162,7 +173,7 @@ const defaultMenuData = [
         image: "../assets/kerupuk-udang.jpg"
     },
     {
-        id: 14,
+        id: 15,
         name: "Emping",
         category: "pendamping",
         price: 5000,
@@ -172,7 +183,7 @@ const defaultMenuData = [
         image: "../assets/emping.jpeg"
     },
     {
-        id: 15,
+        id: 16,
         name: "Es / Hangat Jeruk Limau Kuit",
         category: "minuman",
         price: 12000,
@@ -182,7 +193,7 @@ const defaultMenuData = [
         image: "../assets/jeruk-limau-kuit.jpeg"
     },
     {
-        id: 16,
+        id: 17,
         name: "Es Sirup Limau Kuit",
         category: "minuman",
         price: 14000,
@@ -192,7 +203,7 @@ const defaultMenuData = [
         image: "../assets/sirup-limau-kuit.jpg"
     },
     {
-        id: 17,
+        id: 18,
         name: "Es / Hangat Teh Ahmad",
         category: "minuman",
         price: 6000,
@@ -202,7 +213,7 @@ const defaultMenuData = [
         image: "../assets/es-teh.jpeg"
     },
     {
-        id: 18,
+        id: 19,
         name: "Air Mineral Botol",
         category: "minuman",
         price: 5000,
@@ -212,7 +223,7 @@ const defaultMenuData = [
         image: "../assets/mineral-water.jpg"
     },
     {
-        id: 19,
+        id: 20,
         name: "Bingka Banjar (Original Kentang)",
         category: "hidangan-penutup",
         price: 15000,
@@ -222,7 +233,7 @@ const defaultMenuData = [
         image: "../assets/bingka-banjar.jpeg"
     },
     {
-        id: 20,
+        id: 21,
         name: "Amparan Tatak Pisang",
         category: "hidangan-penutup",
         price: 12000,
@@ -232,7 +243,7 @@ const defaultMenuData = [
         image: "../assets/amparan-tatak-pisang.png"
     },
     {
-        id: 21,
+        id: 22,
         name: "Lumpur Surga",
         category: "hidangan-penutup",
         price: 14000,
@@ -242,10 +253,10 @@ const defaultMenuData = [
         image: "../assets/lumpur-surga.jpeg"
     },
     {
-        id: 22,
+        id: 23,
         name: "Lempeng Pisang",
         category: "hidangan-penutup",
-        price: 14000,
+        price: 20000,
         badge: "Populer",
         badgeColor: "bg-warning text-dark",
         description: "Kue dadar pisang khas Banjar yang manis alami, beraroma harum pisang matang, dan bertekstur lembut di setiap gigitan.",
