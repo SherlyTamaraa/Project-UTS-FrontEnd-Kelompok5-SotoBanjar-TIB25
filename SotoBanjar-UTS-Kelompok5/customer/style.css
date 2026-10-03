@@ -17,6 +17,7 @@ body {
 .text-gold { color: var(--brand-gold) !important; }
 .bg-gold-subtle { background-color: rgba(212, 163, 115, 0.2); }
 
+/* Navigation dan Logo */
 .custom-navbar {
     background-color: rgba(27, 49, 37, 0.96);
     backdrop-filter: blur(8px);
@@ -45,6 +46,7 @@ body {
     color: var(--brand-gold);
 }
 
+/* Navigation Link */
 .custom-navbar .navbar-nav .nav-link {
     color: #cbd5e1;
     font-weight: 500;
@@ -55,6 +57,7 @@ body {
 .custom-navbar .navbar-nav .nav-link:hover { color: var(--brand-cream); }
 .custom-navbar .navbar-nav .nav-link.active { color: var(--brand-gold) !important; font-weight: 700 !important; }
 
+/* Tombol Login */
 .btn-outline-gold {
     color: var(--brand-cream);
     border: 1px solid var(--brand-gold);
@@ -62,6 +65,7 @@ body {
 }
 .btn-outline-gold:hover { background-color: var(--brand-gold); color: var(--brand-dark-green); }
 
+/* header */
 .hero-section {
     min-height: 85vh;
     padding-top: 110px;
@@ -90,26 +94,53 @@ body {
     object-fit: cover;
 }
 
-.btn-gold {
-    background-color: var(--brand-gold);
-    color: var(--brand-dark-green);
-    font-weight: 700;
-    border: none;
-    transition: all 0.2s ease;
+/* Tentang Kami */
+.about-green-section {
+    background-color: var(--brand-dark-green);
+    background-image: radial-gradient(rgba(212, 163, 115, 0.25) 0.75px, transparent 0.75px);
+    background-size: 24px 24px;
 }
-.btn-gold:hover { background-color: #c49260; color: #ffffff; }
 
-.btn-cart {
-    background-color: var(--brand-green);
-    color: var(--brand-cream);
-    border: 1px solid rgba(212, 163, 115, 0.4);
+.about-text-lead {
+    color: #cbd5e1;
 }
-.btn-cart:hover { background-color: var(--brand-gold); color: var(--brand-dark-green); }
 
-/* Menu */
-.location-section { background-color: #FAF8F5; }
-.section-title { font-weight: 800; color: var(--brand-dark-green); }
+.about-img-frame {
+    border: 4px solid rgba(212, 163, 115, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+}
 
+.about-main-img {
+    height: 380px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.about-main-img:hover {
+    transform: scale(1.03);
+}
+
+.about-floating-card {
+    bottom: -20px; right: 15px; z-index: 2;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    animation: floatCard 3s ease-in-out infinite alternate;
+}
+@keyframes floatCard { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+
+.about-floating-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background-color: var(--brand-dark-green); color: var(--brand-gold);
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+
+.about-feature-box {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(212, 163, 115, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.about-feature-box:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+
+/* Filter */
 #filter-tabs {
     display: inline-flex;
     gap: 8px;
@@ -144,6 +175,44 @@ body {
     box-shadow: 0 4px 12px rgba(27, 49, 37, 0.25);
 }
 
+/* Buttons */
+.btn-gold {
+    background-color: var(--brand-gold);
+    color: var(--brand-dark-green);
+    font-weight: 700;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-gold:hover, .btn-gold:focus {
+    background-color: #c49260;
+    color: #ffffff;
+}
+
+.btn-dark-green {
+    background-color: var(--brand-dark-green);
+    border-color: var(--brand-dark-green);
+}
+
+.btn-dark-green:hover, .btn-dark-green:focus {
+    background-color: var(--brand-green);
+    border-color: var(--brand-green);
+    color: #ffffff;
+}
+
+.btn-cart {
+    background-color: var(--brand-green);
+    color: var(--brand-cream);
+    border: 1px solid rgba(212, 163, 115, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-cart:hover {
+    background-color: var(--brand-gold);
+    color: var(--brand-dark-green);
+}
+
+/* Card Menu */
 .menu-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     background-color: #ffffff;
@@ -170,27 +239,63 @@ body {
     z-index: 2;
 }
 
-.bg-danger { background-color: #fee2e2 !important; color: #991b1b !important; }
-.bg-warning { background-color: #fef3c7 !important; color: #92400e !important; }
-.bg-info { background-color: #e0f2fe !important; color: #0369a1 !important; }
+.section-title {
+    font-weight: 800;
+    color: var(--brand-dark-green);
+}
 
-/* Tombol Show / Hide Password Customer */
+.location-section {
+    background-color: #FAF8F5;
+}
+
+.section-heading-custom {
+    font-family: 'Playfair Display', serif, -apple-system;
+    color: #1B3125;
+}
+
+.extra-small {
+    font-size: 0.75rem;
+}
+
+/* Kotak Kode VA */
+.va-card-box {
+    background: #f8fafc;
+    border: 1.5px dashed var(--brand-gold) !important;
+}
+
+.va-code-number {
+    letter-spacing: 2px;
+}
+
+/* Warna badge */
+.bg-danger {
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+}
+
+.bg-warning {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.bg-info {
+    background-color: #e0f2fe !important;
+    color: #0369a1 !important;
+}
+
+.bg-success {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+}
+
+/* Tombol show dan hide password */
 .btn-toggle-pw {
     border-color: #cbd5e1 !important;
     background-color: #f8fafc !important;
     color: #64748b !important;
     font-size: 0.82rem !important;
     font-weight: 700 !important;
-    transition: all 0.2s ease !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
-    user-select: none !important;
-}
-
-.btn-toggle-pw:hover, .btn-toggle-pw:focus {
-    background-color: #e2e8f0 !important;
-    color: var(--brand-dark-green) !important;
-    border-color: #94a3b8 !important;
-    box-shadow: none !important;
 }

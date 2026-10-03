@@ -33,12 +33,17 @@
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
                 </button>
+                <a href="#menu" class="btn btn-gold d-none d-sm-inline-block">Pesan Sekarang</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
 
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#area-pengiriman">Area Kirim</a></li>
                     <li class="nav-item"><a class="nav-link" href="#review">Ulasan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
@@ -48,7 +53,7 @@
         </div>
     </nav>
 
-    <!-- Header -->
+    <!-- Hero -->
     <section id="home" class="hero-section text-white d-flex align-items-center">
         <div class="container text-center text-lg-start">
             <div class="row align-items-center gy-5">
@@ -64,7 +69,7 @@
                     </p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
                         <a href="#menu" class="btn btn-gold btn-lg px-4">Pesan Sekarang <i class="fa-solid fa-arrow-right ms-2"></i></a>
-                        <a href="#tentang" class="btn btn-outline-light btn-lg px-4">Tentang Kami</a>
+                        <a href="#area-pengiriman" class="btn btn-outline-light btn-lg px-4">Cek Jangkauan Kirim</a>
                     </div>
                 </div>
                 <div class="col-lg-5 text-center">
@@ -119,7 +124,217 @@
         </div>
     </section>
 
-    <!-- Form Auth (Login & Register Customer dengan Tombol Show / Hide) -->
+    <!-- Tentang Kami -->
+    <section id="tentang" class="py-5 about-green-section text-white border-top border-bottom">
+        <div class="container py-4">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">
+                    <div class="position-relative pe-lg-4">
+                        <div class="about-img-frame rounded-4 overflow-hidden shadow-lg">
+                            <img id="about-main-img" src="../assets/soto-banjar.jpeg" alt="Cita Rasa Soto Banjar" class="img-fluid w-100 about-main-img">
+                        </div>
+                        <div class="about-floating-card shadow-lg p-3 rounded-3 bg-white position-absolute border text-dark">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="about-floating-icon"><i class="fa-solid fa-mortar-pestle"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-dark-green" style="font-size: 0.9rem;">100% Rempah Asli</h6>
+                                    <small class="text-muted extra-small">Resep Turun-Temurun Kalimantan</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <span class="badge badge-tag mb-3">
+                        <i class="fa-solid fa-utensils me-1 text-warning"></i> <span id="about-badge-text">FILOSOFI RASA</span>
+                    </span>
+                    <h2 class="display-6 fw-bold mb-3 section-heading-custom text-white" id="about-title-text">
+                        Warisan Cita Rasa Hangat dari <span class="text-gold">Bumi Kalimantan</span>
+                    </h2>
+                    <p class="about-text-lead" id="about-p1-text" style="line-height: 1.75; font-size: 0.95rem;">
+                        Soto Banjar Selera Nusantara berakar dari kecintaan kami melestarikan kuliner legendaris khas Banjarmasin. Kunci kelezatan sup kami terletak pada simfoni rempah aromatik pilihan: kayu manis, cengkeh, kapulaga, pala, dan bunga lawang yang ditumis harum dengan mentega berkualitas sebelum dipadukan ke dalam rebusan kaldu murni.
+                    </p>
+                    <p class="about-text-lead mb-4" id="about-p2-text" style="line-height: 1.75; font-size: 0.95rem;">
+                        Kami hanya menggunakan 100% ayam kampung segar yang menghasilkan kaldu gurih alami tanpa bahan pengawet. Disajikan lengkap bersama ketupat lembut, perkedel kentang legit, suwiran ayam tebal, telur bebek rebus, serta kucuran perasan jeruk kuit khas yang harum menyegarkan.
+                    </p>
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start gap-3 p-3 rounded-3 about-feature-box">
+                                <i class="fa-solid fa-fire-burner text-gold fa-xl mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-gold small" id="about-feat1-title">Ayam Kampung Asli</h6>
+                                    <small class="text-white-50 extra-small" id="about-feat1-desc">Daging manis alami berpadu kaldu gurih kaya nutrisi rempah.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-start gap-3 p-3 rounded-3 about-feature-box">
+                                <i class="fa-solid fa-lemon text-gold fa-xl mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-gold small" id="about-feat2-title">Jeruk Kuit Segar</h6>
+                                    <small class="text-white-50 extra-small" id="about-feat2-desc">Aroma sitrus khas Banjar yang autentik dan menyegarkan.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offcanvas Cart Drawer -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" style="width: 480px; max-width: 100vw;">
+        <div class="offcanvas-header bg-dark-green text-white">
+            <h5 class="offcanvas-title d-flex align-items-center gap-2">
+                <i class="fa-solid fa-motorcycle text-gold"></i> Form Pemesanan & Pengiriman
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column p-3">
+            <div class="alert alert-warning py-2 px-3 small d-flex align-items-center mb-3">
+                <i class="fa-solid fa-circle-info text-warning me-2 fa-lg"></i>
+                <div>Layanan khusus <strong>Delivery Online</strong>. Makanan dikirim langsung ke alamat Anda.</div>
+            </div>
+
+            <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-receipt me-1"></i> Rincian Menu</h6>
+            <div id="cart-items-container" class="pe-1 mb-3" style="max-height: 220px; overflow-y: auto;">
+                <div id="cart-empty-state" class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-bowl-food display-4 mb-2"></i>
+                    <p>Keranjang pesanan masih kosong.</p>
+                </div>
+            </div>
+
+            <form id="checkout-form" class="border-top pt-3">
+                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Alamat Pengantaran</h6>
+                
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Nama Penerima *</label>
+                    <input type="text" id="cust-name" class="form-control form-control-sm" placeholder="Contoh: Budi Santoso" required>
+                </div>
+                
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Nomor Telepon / WhatsApp *</label>
+                    <input type="tel" id="cust-phone" class="form-control form-control-sm" placeholder="Contoh: 081234567890" required>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Wilayah Pengantaran *</label>
+                    <select id="cust-city" class="form-select form-select-sm" required></select>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold text-muted mb-1">Alamat Lengkap *</label>
+                    <textarea id="cust-address" rows="2" class="form-control form-control-sm" placeholder="Nama Jalan, No. Rumah, RT/RW, Kelurahan, Kecamatan" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted mb-1">Patokan / Catatan Driver (Opsional)</label>
+                    <input type="text" id="cust-note" class="form-control form-control-sm" placeholder="Contoh: Pagar hitam depan musholla / Titip di lobby">
+                </div>
+
+                <!-- Metode Pembayaran -->
+                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-credit-card me-1 text-primary"></i> Metode Pembayaran (VA & E-Wallet)</h6>
+                <div class="mb-3">
+                    <label class="form-label extra-small text-muted mb-1">Pilih Bank Virtual Account atau E-Wallet *</label>
+                    <select id="cust-payment-channel" class="form-select form-select-sm" required>
+                        <option value="" disabled selected>-- Pilih Bank VA / E-Wallet --</option>
+                        <optgroup label="Virtual Account Bank">
+                            <option value="BCA Virtual Account">BCA Virtual Account</option>
+                            <option value="Mandiri Virtual Account">Mandiri Virtual Account</option>
+                        </optgroup>
+                        <optgroup label="E-Wallet">
+                            <option value="GoPay">GoPay</option>
+                            <option value="OVO">OVO</option>
+                            <option value="ShopeePay">ShopeePay</option>
+                            <option value="DANA">DANA</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="bg-light p-3 rounded-3 mb-3 border">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Subtotal Makanan</span>
+                        <span id="cart-subtotal">Rp 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Biaya Ongkos Kirim</span>
+                        <span id="cart-ongkir">Rp 0</span>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted mb-2">
+                        <span>Biaya Layanan & Pengemasan</span>
+                        <span id="cart-service">Rp 2.000</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold h5 text-dark-green border-top pt-2 mb-0">
+                        <span>Total Pembayaran</span>
+                        <span id="cart-total">Rp 0</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="place-order-btn" class="btn btn-gold w-100 py-2 fw-bold shadow-sm">
+                    <i class="fa-solid fa-lock me-2"></i> Bayar Sekarang via Virtual Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Struk Pesanan Berhasil -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4 overflow-hidden">
+                <div class="modal-body text-center p-4">
+                    <div class="text-success mb-3">
+                        <i class="fa-solid fa-circle-check display-3"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark-green mb-1">Pesanan Berhasil Dibuat!</h4>
+                    <p class="text-muted small mb-3">ID Pesanan: <strong id="modal-order-id" class="text-dark">#SBN-0000</strong></p>
+                    
+                    <div class="va-card-box p-3 rounded-3 mb-3 border text-center">
+                        <span class="badge bg-gold-subtle text-dark-green fw-bold text-uppercase mb-2 d-inline-block px-3 py-1" id="modal-payment-name">
+                            BCA Virtual Account
+                        </span>
+                        <div class="small text-muted mb-1">Nomor Rekening Virtual Account:</div>
+                        <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                            <span class="va-code-number fs-4 fw-bold text-dark-green font-monospace" id="modal-va-number">807770812345678</span>
+                            <button type="button" class="btn btn-sm btn-outline-success py-1 px-3" onclick="copyVACode()" id="btn-copy-code" title="Salin Kode">
+                                <i class="fa-regular fa-copy me-1"></i> Salin
+                            </button>
+                        </div>
+                        <div class="extra-small text-muted">
+                            <i class="fa-regular fa-clock me-1 text-warning"></i> Selesaikan pembayaran dalam <strong>24 jam</strong>
+                        </div>
+                    </div>
+
+                    <div class="border rounded-3 p-3 bg-light text-start small mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Penerima:</span>
+                            <span class="fw-bold" id="modal-cust-name">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted">Wilayah:</span>
+                            <span class="fw-bold" id="modal-cust-city">-</span>
+                        </div>
+                        <div class="mb-1">
+                            <span class="text-muted d-block">Alamat Pengiriman:</span>
+                            <span class="fw-semibold" id="modal-cust-address">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-top pt-2 mt-2">
+                            <span class="fw-bold fs-6">Total Pembayaran:</span>
+                            <span class="fw-bold fs-6 text-dark-green" id="modal-total-pay">-</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-dark-green text-white w-100 py-2 fw-semibold" data-bs-dismiss="modal">
+                        Selesai
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Auth -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
             <div class="modal-content border-0 shadow rounded-4 overflow-hidden">

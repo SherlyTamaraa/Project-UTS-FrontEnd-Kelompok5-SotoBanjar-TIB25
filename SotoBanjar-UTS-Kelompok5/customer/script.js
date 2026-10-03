@@ -1,4 +1,3 @@
-// Toggle show dan hide password
 window.toggleCustomerPassword = function(inputId, iconId, textId) {
     var input = document.getElementById(inputId);
     var icon = document.getElementById(iconId);
@@ -263,6 +262,13 @@ var defaultCategories = [
     { key: "hidangan-penutup", label: "Hidangan Penutup" }
 ];
 
+var defaultOngkirList = [
+    { id: 1, name: "Jakarta", price: 10000 },
+    { id: 2, name: "Tangerang / Tangsel", price: 15000 },
+    { id: 3, name: "Depok / Bekasi", price: 18000 },
+    { id: 4, name: "Bogor", price: 24000 }
+];
+
 const CURRENT_DATA_VERSION = "v3_banjar_full";
 
 function getStoredMenu() {
@@ -283,6 +289,14 @@ function getStoredCategories() {
     }
     localStorage.setItem("sotoBanjarCategories", JSON.stringify(defaultCategories));
     return defaultCategories;
+}
+
+function getStoredOngkirList() {
+    var saved = localStorage.getItem("sotoBanjarOngkirList");
+    if (saved) {
+        try { return JSON.parse(saved); } catch (e) {}
+    }
+    return defaultOngkirList;
 }
 
 function getCurrentCustomer() {
@@ -314,7 +328,12 @@ function showToast(msg) {
 
 var menuData = getStoredMenu();
 var currentCategories = getStoredCategories();
+var currentOngkirList = getStoredOngkirList();
 var cart = [];
+var SERVICE_FEE = 2000;
+
+var cartDrawerInstance = null;
+var orderSuccessModalInstance = null;
 
 function sortMenuItems(items) {
     return [...items].sort(function(a, b) {
@@ -383,6 +402,43 @@ function renderMenu(items) {
     menuGrid.innerHTML = items.map(createMenuCardHTML).join("");
 }
 
+function generateVANumber(channel, phone) {
+    var cleanPhone = (phone || "").replace(/[^0-9]/g, '');
+    var suffix = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : Math.floor(10000000 + Math.random() * 90000000);
+    if (channel.includes("BCA")) return "80777" + suffix;
+    if (channel.includes("Mandiri")) return "88708" + suffix;
+    if (channel.includes("GoPay")) return "70001" + suffix;
+    if (channel.includes("OVO")) return "8099" + suffix;
+    if (channel.includes("ShopeePay")) return "12208" + suffix;
+    if (channel.includes("DANA")) return "8528" + suffix;
+    return "88000" + suffix;
+}
+
+window.copyVACode = function() {
+    var vaText = document.getElementById("modal-va-number").textContent;
+    navigator.clipboard.writeText(vaText).then(function() {
+        var btn = document.getElementById("btn-copy-code");
+        btn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Tersalin';
+        setTimeout(function() { btn.innerHTML = '<i class="fa-regular fa-copy me-1"></i> Salin'; }, 2000);
+        showToast("Nomor VA berhasil disalin ke clipboard!");
+    });
+};
+
+function populateCityDropdown() {
+    var citySelect = document.getElementById("cust-city");
+    if (!citySelect) return;
+    var curVal = citySelect.value;
+    citySelect.innerHTML = '<option value="" disabled selected>-- Pilih Wilayah Pengiriman --</option>';
+    currentOngkirList = getStoredOngkirList();
+    currentOngkirList.forEach(function(item) {
+        var opt = document.createElement("option");
+        opt.value = item.name;
+        opt.textContent = item.name + " (Ongkir: Rp " + Number(item.price).toLocaleString("id-ID") + ")";
+        if (item.name === curVal) opt.selected = true;
+        citySelect.appendChild(opt);
+    });
+}
+
 function addToCart(id) {
     var user = getCurrentCustomer();
     if (!user) {
@@ -398,7 +454,134 @@ function addToCart(id) {
     } else {
         cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
     }
+    updateCartUI();
     showToast(product.name + " ditambahkan ke pesanan!");
+}
+
+window.changeQty = function(id, delta) {
+    for (var i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+            cart[i].qty += delta;
+            if (cart[i].qty <= 0) cart.splice(i, 1);
+            break;
+        }
+    }
+    updateCartUI();
+};
+
+function getSelectedDeliveryFee() {
+    var citySelect = document.getElementById("cust-city");
+    if (!citySelect) return 0;
+    var cityName = citySelect.value;
+    currentOngkirList = getStoredOngkirList();
+    var found = currentOngkirList.find(function(o) { return o.name === cityName; });
+    return found ? found.price : (currentOngkirList[0] ? currentOngkirList[0].price : 10000);
+}
+
+function updateCartUI() {
+    var cartBadge = document.getElementById("cart-count-badge");
+    var cartItemsContainer = document.getElementById("cart-items-container");
+    var cartEmptyState = document.getElementById("cart-empty-state");
+
+    var totalCount = cart.reduce(function(sum, item) { return sum + item.qty; }, 0);
+    if (cartBadge) {
+        cartBadge.textContent = totalCount;
+        cartBadge.classList.toggle("d-none", totalCount === 0);
+    }
+
+    if (cartItemsContainer) {
+        cartItemsContainer.querySelectorAll(".cart-item-row").forEach(function(row) { row.remove(); });
+        if (cart.length === 0) {
+            if (cartEmptyState) cartEmptyState.classList.remove("d-none");
+        } else {
+            if (cartEmptyState) cartEmptyState.classList.add("d-none");
+            cart.forEach(function(item) {
+                var div = document.createElement("div");
+                div.className = "d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded cart-item-row border";
+                div.innerHTML = `
+                    <div class="pe-2">
+                        <div class="small fw-bold text-dark-green">${item.name}</div>
+                        <small class="text-muted">Rp ${(item.price * item.qty).toLocaleString("id-ID")}</small>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-outline-secondary" onclick="changeQty(${item.id}, -1)">-</button>
+                        <button type="button" class="btn btn-outline-secondary disabled fw-bold text-dark">${item.qty}</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="changeQty(${item.id}, 1)">+</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(div);
+            });
+        }
+    }
+
+    var subtotal = cart.reduce(function(sum, item) { return sum + (item.price * item.qty); }, 0);
+    var ongkir = (cart.length > 0) ? getSelectedDeliveryFee() : 0;
+    var service = (cart.length > 0) ? SERVICE_FEE : 0;
+
+    document.getElementById("cart-subtotal").textContent = "Rp " + subtotal.toLocaleString("id-ID");
+    document.getElementById("cart-ongkir").textContent = "Rp " + ongkir.toLocaleString("id-ID");
+    document.getElementById("cart-service").textContent = "Rp " + service.toLocaleString("id-ID");
+    document.getElementById("cart-total").textContent = "Rp " + (subtotal + ongkir + service).toLocaleString("id-ID");
+}
+
+function handleCheckout(e) {
+    e.preventDefault();
+    var user = getCurrentCustomer();
+    if (!user) {
+        if (cartDrawerInstance) cartDrawerInstance.hide();
+        promptCustomerAuth("Silakan masuk atau daftar akun terlebih dahulu untuk melakukan pemesanan!");
+        return;
+    }
+    if (cart.length === 0) {
+        showToast("Keranjang belanja masih kosong!");
+        return;
+    }
+
+    var name = document.getElementById("cust-name").value.trim();
+    var phone = document.getElementById("cust-phone").value.trim();
+    var city = document.getElementById("cust-city").value;
+    var address = document.getElementById("cust-address").value.trim();
+    var note = document.getElementById("cust-note").value.trim();
+    var paymentChannel = document.getElementById("cust-payment-channel").value;
+
+    if (!city) { showToast("Harap pilih wilayah pengantaran terlebih dahulu!"); return; }
+    if (!paymentChannel) { showToast("Harap pilih metode pembayaran Virtual Account atau E-Wallet!"); return; }
+
+    var subtotal = cart.reduce(function(sum, item) { return sum + (item.price * item.qty); }, 0);
+    var ongkir = getSelectedDeliveryFee();
+    var totalBayar = subtotal + ongkir + SERVICE_FEE;
+    var orderId = "SBN-" + Math.floor(100000 + Math.random() * 900000);
+    var vaNumber = generateVANumber(paymentChannel, phone);
+
+    var orderData = {
+        orderId: orderId,
+        timestamp: new Date().toISOString(),
+        customer: { name: name, phone: phone, city: city, address: address, note: note || "-", userEmail: user.email || "" },
+        items: JSON.parse(JSON.stringify(cart)),
+        pricing: { subtotal: subtotal, ongkir: ongkir, serviceFee: SERVICE_FEE, total: totalBayar },
+        paymentMethod: paymentChannel,
+        vaNumber: vaNumber,
+        status: "Diproses"
+    };
+
+    var existingOrders = JSON.parse(localStorage.getItem("sotoBanjarOrders") || "[]");
+    existingOrders.unshift(orderData);
+    localStorage.setItem("sotoBanjarOrders", JSON.stringify(existingOrders));
+
+    document.getElementById("modal-order-id").textContent = "#" + orderId;
+    document.getElementById("modal-payment-name").textContent = paymentChannel;
+    document.getElementById("modal-va-number").textContent = vaNumber;
+    document.getElementById("modal-cust-name").textContent = name;
+    document.getElementById("modal-cust-city").textContent = city;
+    document.getElementById("modal-cust-address").textContent = address + (note ? " (Patokan: " + note + ")" : "");
+    document.getElementById("modal-total-pay").textContent = "Rp " + totalBayar.toLocaleString("id-ID");
+
+    if (cartDrawerInstance) cartDrawerInstance.hide();
+    cart = [];
+    document.getElementById("checkout-form").reset();
+    updateCartUI();
+
+    if (orderSuccessModalInstance) orderSuccessModalInstance.show();
 }
 
 window.toggleAuthTab = function(type) {
@@ -439,7 +622,6 @@ function handleCustomerLogin(e) {
     e.preventDefault();
     var email = document.getElementById("login-email").value.trim();
     var pass = document.getElementById("login-password").value.trim();
-
     var users = JSON.parse(localStorage.getItem("sotoBanjarUsers") || "[]");
     var found = users.find(function(u) { return (u.email === email || u.phone === email) && u.password === pass; });
 
@@ -449,6 +631,9 @@ function handleCustomerLogin(e) {
         showToast("Selamat datang kembali, " + found.name + "!");
         closeAuthModal();
         checkCurrentUser();
+        if (cart.length > 0 && cartDrawerInstance) {
+            setTimeout(function() { cartDrawerInstance.show(); }, 400);
+        }
     } else {
         recordLoginHistory(email, "Customer", "Gagal (Salah Password)");
         showToast("Email/No HP atau kata sandi salah!");
@@ -461,8 +646,8 @@ function handleCustomerRegister(e) {
     var email = document.getElementById("reg-email").value.trim();
     var phone = document.getElementById("reg-phone").value.trim();
     var pass = document.getElementById("reg-password").value.trim();
-
     var users = JSON.parse(localStorage.getItem("sotoBanjarUsers") || "[]");
+
     if (users.some(function(u) { return u.email === email; })) {
         showToast("Email sudah terdaftar!");
         return;
@@ -477,6 +662,9 @@ function handleCustomerRegister(e) {
     showToast("Pendaftaran berhasil! Akun Anda langsung aktif.");
     closeAuthModal();
     checkCurrentUser();
+    if (cart.length > 0 && cartDrawerInstance) {
+        setTimeout(function() { cartDrawerInstance.show(); }, 400);
+    }
 }
 
 function checkCurrentUser() {
@@ -498,6 +686,10 @@ function checkCurrentUser() {
                 </ul>
             </div>
         `;
+        var nameInp = document.getElementById("cust-name");
+        var phoneInp = document.getElementById("cust-phone");
+        if (nameInp) nameInp.value = user.name;
+        if (phoneInp && !phoneInp.value) phoneInp.value = user.phone || "";
     } else {
         userArea.innerHTML = `
             <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#authModal">
@@ -523,7 +715,21 @@ document.addEventListener("DOMContentLoaded", function() {
     setupNavbarActiveLinks();
     renderCategoryFilterTabs();
     renderMenu(sortMenuItems(menuData));
+    populateCityDropdown();
     checkCurrentUser();
+    updateCartUI();
+
+    var cartToggleBtn = document.getElementById("cart-toggle-btn");
+    if (cartToggleBtn) {
+        cartToggleBtn.addEventListener("click", function() {
+            var user = getCurrentCustomer();
+            if (!user) {
+                promptCustomerAuth("Silakan masuk atau daftar akun terlebih dahulu untuk melihat keranjang!");
+                return;
+            }
+            if (cartDrawerInstance) cartDrawerInstance.show();
+        });
+    }
 
     var filterTabs = document.getElementById("filter-tabs");
     if (filterTabs) {
@@ -542,9 +748,26 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    var citySelect = document.getElementById("cust-city");
+    if (citySelect) {
+        citySelect.addEventListener("change", function() { updateCartUI(); });
+    }
+
+    var checkoutForm = document.getElementById("checkout-form");
+    if (checkoutForm) checkoutForm.addEventListener("submit", handleCheckout);
+
     var loginForm = document.getElementById("form-login");
     if (loginForm) loginForm.addEventListener("submit", handleCustomerLogin);
 
     var registerForm = document.getElementById("form-register");
     if (registerForm) registerForm.addEventListener("submit", handleCustomerRegister);
+
+    var cartDrawerEl = document.getElementById("cartDrawer");
+    if (cartDrawerEl && typeof bootstrap !== "undefined") {
+        cartDrawerInstance = new bootstrap.Offcanvas(cartDrawerEl);
+    }
+    var orderModalEl = document.getElementById("orderSuccessModal");
+    if (orderModalEl && typeof bootstrap !== "undefined") {
+        orderSuccessModalInstance = new bootstrap.Modal(orderModalEl);
+    }
 });
