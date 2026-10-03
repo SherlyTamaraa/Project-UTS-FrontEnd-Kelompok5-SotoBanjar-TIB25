@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soto Banjar Selera Nusantara - Delivery Online Jabodetabek</title>
+    <link rel="icon" type="image/jpeg" href="../assets/logo.jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -14,7 +15,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <span class="brand-avatar">S</span>
+                <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="brand-logo-img">
                 <div>
                     <span class="d-block brand-title">Soto Banjar</span>
                     <span class="d-block brand-subtitle">Delivery Jabodetabek</span>
@@ -22,12 +23,15 @@
             </a>
             
             <div class="d-flex align-items-center gap-2 order-lg-last">
+                <div id="user-nav-area">
+                    <button class="btn btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#authModal">
+                        <i class="fa-solid fa-user me-1"></i> Masuk / Daftar
+                    </button>
+                </div>
+
                 <button id="cart-toggle-btn" class="btn btn-cart position-relative" title="Lihat Keranjang Pesanan">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
-                </button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                    <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
 
@@ -36,37 +40,44 @@
                     <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
                     <li class="nav-item"><a class="nav-link" href="#area-pengiriman">Area Kirim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#review">Ulasan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- Header -->
-    <section id="home" class="header-section text-white d-flex align-items-center">
+    <section id="home" class="hero-section text-white d-flex align-items-center">
         <div class="container text-center text-lg-start">
             <div class="row align-items-center gy-5">
                 <div class="col-lg-7">
                     <span class="badge badge-tag mb-3">
-                        <i class="fa-solid fa-motorcycle me-1 text-warning"></i> Khusus Pesan Online • Area Jabodetabek
+                        <i class="fa-solid fa-motorcycle me-1 text-warning"></i> <span id="hero-badge-text">Khusus Pesan Online • Area Jabodetabek</span>
                     </span>
-                    <h1 class="display-4 fw-bold mb-3 header-title">Keharuman Rempah Autentik <span class="text-gold">Khas Banjar</span> Langsung ke Rumahmu</h1>
-                    <p class="lead mb-4 header-desc">Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.</p>
+                    <h1 class="display-4 fw-bold mb-3 hero-title" id="hero-title-text">
+                        Keharuman Rempah Autentik <span class="text-gold">Khas Banjar</span> Langsung ke Rumahmu
+                    </h1>
+                    <p class="lead mb-4 hero-desc" id="hero-desc-text">
+                        Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.
+                    </p>
                     <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
                         <a href="#menu" class="btn btn-gold btn-lg px-4">Pesan Sekarang <i class="fa-solid fa-arrow-right ms-2"></i></a>
-                        <a href="#area-pengiriman" class="btn btn-outline-light btn-lg px-4">Cek Jangkauan Kirim</a>
+                        <a href="#tentang" class="btn btn-outline-light btn-lg px-4">Tentang Kami</a>
                     </div>
                 </div>
                 <div class="col-lg-5 text-center">
-                    <div class="header-img-box position-relative d-inline-block">
-                        <img src="https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80" alt="Soto Banjar" class="img-fluid rounded-4 shadow-lg header-img">
+                    <div class="hero-img-box position-relative d-inline-block">
+                        <img id="hero-main-img" src="../assets/header.jpg" alt="Soto Banjar" class="img-fluid rounded-4 shadow-lg hero-img">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Info Banner Pengiriman -->
+    <!-- Banner Pengiriman -->
     <section id="area-pengiriman" class="bg-white py-3 border-bottom shadow-sm">
         <div class="container">
             <div class="row g-3 text-center align-items-center">
@@ -91,337 +102,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Menu -->
-    <section id="menu" class="py-5">
-        <div class="container py-4">
-            <div class="text-center mb-5">
-                <span class="badge bg-gold-subtle text-gold text-uppercase px-3 py-2 rounded-pill fw-bold">Menu Pilihan</span>
-                <h2 class="section-title mt-2">Daftar Menu Favorit</h2>
-                <p class="text-muted">Pilih menu favorit Anda dan lengkapi rincian pengantaran pada form pemesanan</p>
-                
-                <!-- Filter Kategori -->
-                <div class="btn-group mt-3 flex-wrap" id="filter-tabs">
-                    <button class="btn btn-outline-dark active" data-category="all">Semua</button>
-                    <button class="btn btn-outline-dark" data-category="soto">Soto & Sup</button>
-                    <button class="btn btn-outline-dark" data-category="sampingan">Sate & Sampingan</button>
-                    <button class="btn btn-outline-dark" data-category="minuman">Minuman Segar</button>
-                </div>
-            </div>
-
-            <!-- Kontainer Menu (Item di-render di script.js) -->
-            <div class="row g-4" id="menu-grid">
-                <!-- Render di JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Tentang Kami -->
-    <section id="tentang" class="py-5 bg-dark-green text-white">
-        <div class="container py-4">
-            <div class="row align-items-center gy-4">
-                <div class="col-lg-6">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-3 shadow" alt="Rempah">
-                        </div>
-                        <div class="col-6 pt-4">
-                            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-3 shadow" alt="Masak">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <span class="text-gold text-uppercase fw-bold small">Cita Rasa Nusantara</span>
-                    <h2 class="mt-2 mb-3">Dimasak Perlahan dengan Rempah Pilihan</h2>
-                    <p class="text-light-subtle">Kelezatan Soto Banjar kami tercipta dari proses kuah kaldu yang dimasak secara tradisional dengan racikan kayu manis, kapulaga, dan telur bebek gurih. Dikemas higienis khusus delivery untuk menjaga cita rasa tetap hangat dan segar.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" style="width: 480px; max-width: 100vw;">
-        <div class="offcanvas-header bg-dark-green text-white">
-            <h5 class="offcanvas-title d-flex align-items-center gap-2">
-                <i class="fa-solid fa-motorcycle text-gold"></i> Form Pemesanan & Pengiriman
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        
-        <div class="offcanvas-body d-flex flex-column p-3">
-            <!-- Alert Khusus Jabodetabek -->
-            <div class="alert alert-warning py-2 px-3 small d-flex align-items-center mb-3">
-                <i class="fa-solid fa-circle-info text-warning me-2 fa-lg"></i>
-                <div>Layanan khusus <strong>Delivery Online (Jabodetabek)</strong>. Tidak melayani makan di tempat.</div>
-            </div>
-
-            <!-- Item Keranjang -->
-            <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-receipt me-1"></i> Rincian Menu</h6>
-            <div id="cart-items-container" class="pe-1 mb-3" style="max-height: 220px; overflow-y: auto;">
-                <div id="cart-empty-state" class="text-center py-4 text-muted">
-                    <i class="fa-solid fa-bowl-food display-4 mb-2"></i>
-                    <p>Keranjang pesanan masih kosong.</p>
-                </div>
-            </div>
-
-            <!-- Form Data Pengiriman -->
-            <form id="checkout-form" class="border-top pt-3">
-                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Alamat Pengantaran</h6>
-                
-                <div class="mb-2">
-                    <label class="form-label small fw-semibold text-muted mb-1">Nama Penerima *</label>
-                    <input type="text" id="cust-name" class="form-control form-control-sm" placeholder="Contoh: Budi Santoso" required>
-                </div>
-                
-                <div class="mb-2">
-                    <label class="form-label small fw-semibold text-muted mb-1">Nomor Telepon / WhatsApp *</label>
-                    <input type="tel" id="cust-phone" class="form-control form-control-sm" placeholder="Contoh: 081234567890" required>
-                </div>
-
-                <div class="mb-2">
-                    <label class="form-label small fw-semibold text-muted mb-1">Wilayah Pengantaran (Jabodetabek) *</label>
-                    <select id="cust-city" class="form-select form-select-sm" required>
-                        <option value="" disabled selected>-- Pilih Kota Pengiriman --</option>
-                        <option value="Jakarta Pusat" data-ongkir="12000">Jakarta Pusat (Ongkir: Rp 12.000)</option>
-                        <option value="Jakarta Barat" data-ongkir="10000">Jakarta Barat (Ongkir: Rp 10.000)</option>
-                        <option value="Jakarta Selatan" data-ongkir="14000">Jakarta Selatan (Ongkir: Rp 14.000)</option>
-                        <option value="Jakarta Timur" data-ongkir="14000">Jakarta Timur (Ongkir: Rp 14.000)</option>
-                        <option value="Jakarta Utara" data-ongkir="10000">Jakarta Utara (Ongkir: Rp 10.000)</option>
-                        <option value="Bogor" data-ongkir="24000">Bogor (Kota / Kab) (Ongkir: Rp 24.000)</option>
-                        <option value="Depok" data-ongkir="18000">Depok (Ongkir: Rp 18.000)</option>
-                        <option value="Tangerang" data-ongkir="15000">Tangerang Kota (Ongkir: Rp 15.000)</option>
-                        <option value="Tangerang Selatan" data-ongkir="16000">Tangerang Selatan (Ongkir: Rp 16.000)</option>
-                        <option value="Bekasi" data-ongkir="18000">Bekasi (Kota / Kab) (Ongkir: Rp 18.000)</option>
-                    </select>
-                </div>
-
-                <div class="mb-2">
-                    <label class="form-label small fw-semibold text-muted mb-1">Alamat Lengkap *</label>
-                    <textarea id="cust-address" rows="2" class="form-control form-control-sm" placeholder="Nama Jalan, No. Rumah, RT/RW, Kelurahan, Kecamatan" required></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label small fw-semibold text-muted mb-1">Patokan / Catatan Driver (Opsional)</label>
-                    <input type="text" id="cust-note" class="form-control form-control-sm" placeholder="Contoh: Pagar hitam depan musholla / Titip di lobby">
-                </div>
-
-                <!-- Pembayaran -->
-                <h6 class="fw-bold text-dark-green mb-2"><i class="fa-solid fa-wallet me-1"></i> Metode Pembayaran</h6>
-                <div class="mb-3">
-                    <select id="cust-payment" class="form-select form-select-sm">
-                        <option value="QRIS">QRIS (Gopay, OVO, Dana, ShopeePay, BCA)</option>
-                        <option value="Transfer Bank BCA">Transfer Bank BCA Virtual Account</option>
-                        <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
-                    </select>
-                </div>
-
-                <!-- Perhitungan Biaya -->
-                <div class="bg-light p-3 rounded-3 mb-3 border">
-                    <div class="d-flex justify-content-between small text-muted mb-1">
-                        <span>Subtotal Makanan</span>
-                        <span id="cart-subtotal">Rp 0</span>
-                    </div>
-                    <div class="d-flex justify-content-between small text-muted mb-1">
-                        <span>Biaya Ongkos Kirim</span>
-                        <span id="cart-ongkir">Rp 0</span>
-                    </div>
-                    <div class="d-flex justify-content-between small text-muted mb-2">
-                        <span>Biaya Layanan & Pengemasan</span>
-                        <span id="cart-service">Rp 2.000</span>
-                    </div>
-                    <div class="d-flex justify-content-between fw-bold h5 text-dark-green border-top pt-2 mb-0">
-                        <span>Total Pembayaran</span>
-                        <span id="cart-total">Rp 0</span>
-                    </div>
-                </div>
-
-                <button type="submit" id="place-order-btn" class="btn btn-gold w-100 py-2 fw-bold shadow-sm">
-                    <i class="fa-solid fa-paper-plane me-2"></i> Konfirmasi & Pesan Sekarang
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Struk Online -->
-    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-body text-center p-4">
-                    <div class="text-success mb-3">
-                        <i class="fa-solid fa-circle-check display-3"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark-green">Pesanan Berhasil Diterima!</h4>
-                    <p class="text-muted small">Nomor Order: <strong id="modal-order-id" class="text-dark">#SBN-0000</strong></p>
-                    
-                    <div class="border rounded-3 p-3 bg-light text-start small mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">Nama:</span>
-                            <span class="fw-bold" id="modal-cust-name">-</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">No. Telepon:</span>
-                            <span class="fw-bold" id="modal-cust-phone">-</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-muted">Kota:</span>
-                            <span class="fw-bold" id="modal-cust-city">-</span>
-                        </div>
-                        <div class="mb-1">
-                            <span class="text-muted d-block">Alamat Pengiriman:</span>
-                            <span class="fw-semibold" id="modal-cust-address">-</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-1 border-top pt-1">
-                            <span class="text-muted">Metode Pembayaran:</span>
-                            <span class="fw-bold text-success" id="modal-cust-payment">-</span>
-                        </div>
-                        <div class="d-flex justify-content-between border-top pt-1 mt-1">
-                            <span class="fw-bold">Total Pembayaran:</span>
-                            <span class="fw-bold text-dark-green" id="modal-total-pay">-</span>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-info py-2 small mb-3">
-                        <i class="fa-solid fa-person-biking me-1"></i> Dapur kami sedang menyiapkan pesanan Anda dan driver akan segera menghubungi via telepon/SMS.
-                    </div>
-
-                    <button type="button" class="btn btn-dark-green text-white w-100 py-2 fw-semibold" data-bs-dismiss="modal">
-                        Selesai & Kembali ke Menu
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notifikasi Pesanan Masuk -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="actionToast" class="toast align-items-center text-white bg-dark-green border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body" id="toastMessage"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Lokasi & Jam Operasional -->
-    <section id="lokasi" class="location-section py-5">
-        <div class="container py-4">
-            <!-- Header Lokasi -->
-            <div class="text-center mb-5">
-                <span class="badge badge-pill-subtle text-uppercase px-3 py-2 rounded-pill fw-bold">KUNJUNGI RUMAH MAKAN</span>
-                <h2 class="display-6 fw-bold mt-2 section-heading-custom">Lokasi & Jam Operasional</h2>
-                <p class="text-muted small">Datang langsung untuk menikmati sajian hangat di tempat yang nyaman dan asri.</p>
-            </div>
-
-            <div class="row g-4 align-items-stretch">
-                <!-- 3 kolom kiri -->
-                <div class="col-lg-5 d-flex flex-column gap-3 justify-content-between">
-                    <!-- Alamat -->
-                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
-                        <div class="icon-circle">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-1 title-text">Alamat Restoran</h6>
-                            <p class="text-muted small mb-0">Jl. Boulevard Raya No. 45, Kelapa Gading, Jakarta Utara<br>(Samping Danau)</p>
-                        </div>
-                    </div>
-
-                    <!-- Jam Buka -->
-                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
-                        <div class="icon-circle">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h6 class="fw-bold mb-2 title-text">Jam Buka</h6>
-                            <div class="d-flex justify-content-between small text-muted mb-1">
-                                <span>Senin - Jumat:</span>
-                                <span class="fw-semibold text-dark">08.00 - 21.00 WIB</span>
-                            </div>
-                            <div class="d-flex justify-content-between small text-muted">
-                                <span>Sabtu - Minggu:</span>
-                                <span class="fw-semibold text-dark">07.30 - 22.00 WIB</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kontak & Reservasi -->
-                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
-                        <div class="icon-circle">
-                            <i class="fa-solid fa-phone"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-1 title-text">Kontak & Reservasi</h6>
-                            <div class="text-muted small">Telepon/WA: +62 812-3456-7890</div>
-                            <div class="text-muted small">Email: info@sotobanjar-selera.id</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Peta / Gambar Preview dengan Badge & Tombol Google Maps -->
-                <div class="col-lg-7">
-                    <div class="h-100 rounded-4 shadow-sm overflow-hidden border bg-light" style="min-height: 380px;">
-                        <iframe 
-                            src="https://maps.google.com/maps?q=Wisma%20Atlet%20Tower%203%20Kemayoran%20Jakarta%20Pusat&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0; min-height: 380px; width: 100%; display: block;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="main-footer py-5 text-white">
-        <div class="container py-2">
-            <div class="row g-4 justify-content-between">
-                <!-- Brand & Keterangan -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="footer-avatar">S</div>
-                        <h5 class="fw-bold mb-0 text-white font-serif">Soto Banjar Selera</h5>
-                    </div>
-                    <p class="footer-desc small text-light-green mb-0 pe-lg-4">
-                        Menyajikan kehangatan resep asli Kalimantan Selatan dengan kebersihan dan kualitas rasa terbaik.
-                    </p>
-                </div>
-
-                <!-- Tautan seperti navigasi -->
-                <div class="col-lg-2 col-md-6 col-6">
-                    <h6 class="footer-title fw-bold text-uppercase mb-3">Tautan Cepat</h6>
-                    <ul class="list-unstyled footer-links small mb-0 d-flex flex-column gap-2">
-                        <li><a href="#home">Beranda</a></li>
-                        <li><a href="#menu">Daftar Menu</a></li>
-                        <li><a href="#tentang">Kisah Kami</a></li>
-                        <li><a href="#lokasi">Lokasi & Kontak</a></li>
-                    </ul>
-                </div>
-
-                <!-- Jam Layanan -->
-                <div class="col-lg-3 col-md-6 col-6">
-                    <h6 class="footer-title fw-bold text-uppercase mb-3">Jam Layanan</h6>
-                    <div class="small text-light-green">
-                        <p class="mb-1">Senin - Minggu:</p>
-                        <p class="fw-bold text-white mb-2">08:00 - 21:00 WIB</p>
-                        <p class="mb-0 extra-small opacity-75">Menerima Pesanan Catering & Acara</p>
-                    </div>
-                </div>
-
-                <!-- Medsos -->
-                <div class="col-lg-2 col-md-6">
-                    <h6 class="footer-title fw-bold text-uppercase mb-3">Ikuti Kami</h6>
-                    <div class="d-flex gap-2">
-                        <a href="#" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
