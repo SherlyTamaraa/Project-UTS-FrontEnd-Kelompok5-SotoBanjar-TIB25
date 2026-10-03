@@ -1685,3 +1685,46 @@ window.addEventListener("storage", (e) => {
         renderMenuTable();
     }
 });
+
+// Reset Banner Hero ke Default
+window.resetHeroText = function() {
+    if (confirm("Reset konten Hero Banner ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarHeroContent");
+        document.getElementById("edit-hero-badge").value = "Khusus Pesan Online • Area Jabodetabek";
+        document.getElementById("edit-hero-title").value = "Keharuman Rempah Autentik Khas Banjar Langsung ke Rumahmu";
+        document.getElementById("edit-hero-highlight").value = "Khas Banjar";
+        document.getElementById("edit-hero-desc").value = "Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.";
+        document.getElementById("edit-hero-image-url").value = "";
+        document.getElementById("edit-hero-image-file").value = "";
+        alert("Hero Banner berhasil direset ke default!");
+    }
+};
+
+// Reset Tentang Kami ke Default
+window.resetAboutText = function() {
+    if (confirm("Reset konten Tentang Kami ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarAboutContent");
+        document.getElementById("edit-about-badge").value = "FILOSOFI RASA";
+        document.getElementById("edit-about-title").value = "Warisan Cita Rasa Hangat dari Bumi Kalimantan";
+        document.getElementById("edit-about-highlight").value = "Bumi Kalimantan";
+        document.getElementById("edit-about-p1").value = "Soto Banjar Selera Nusantara berakar dari kecintaan kami melestarikan kuliner legendaris khas Banjarmasin...";
+        document.getElementById("edit-about-p2").value = "Kami hanya menggunakan 100% ayam kampung segar yang menghasilkan kaldu gurih alami tanpa bahan pengawet...";
+        document.getElementById("edit-about-feat1-title").value = "Ayam Kampung Asli";
+        document.getElementById("edit-about-feat1-desc").value = "Daging manis alami berpadu kaldu gurih kaya nutrisi rempah.";
+        document.getElementById("edit-about-feat2-title").value = "Jeruk Kuit Segar";
+        document.getElementById("edit-about-feat2-desc").value = "Aroma sitrus khas Banjar yang autentik dan menyegarkan.";
+        document.getElementById("edit-about-image-url").value = "";
+        document.getElementById("edit-about-image-file").value = "";
+        alert("Section Tentang Kami berhasil direset ke default!");
+    }
+};
+
+// Reset FAQ ke Default
+window.resetFaqText = function() {
+    if (confirm("Reset seluruh data FAQ ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarFaqContent");
+        // Memuat ulang data default ke form & preview
+        loadAdminFaqSection(); 
+        alert("FAQ berhasil direset ke default!");
+    }
+};
