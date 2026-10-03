@@ -12,10 +12,21 @@ body {
     color: #2b2b2b;
 }
 
-.bg-dark-green { background-color: var(--brand-dark-green) !important; }
-.text-dark-green { color: var(--brand-dark-green) !important; }
-.text-gold { color: var(--brand-gold) !important; }
-.bg-gold-subtle { background-color: rgba(212, 163, 115, 0.2); }
+.bg-dark-green {
+    background-color: var(--brand-dark-green) !important;
+}
+
+.text-dark-green {
+    color: var(--brand-dark-green) !important;
+}
+
+.text-gold {
+    color: var(--brand-gold) !important;
+}
+
+.bg-gold-subtle {
+    background-color: rgba(212, 163, 115, 0.2);
+}
 
 /* Navigation dan Logo */
 .custom-navbar {
@@ -46,7 +57,6 @@ body {
     color: var(--brand-gold);
 }
 
-/* Navigation Link */
 .custom-navbar .navbar-nav .nav-link {
     color: #cbd5e1;
     font-weight: 500;
@@ -54,8 +64,15 @@ body {
     transition: color 0.2s ease;
 }
 
-.custom-navbar .navbar-nav .nav-link:hover { color: var(--brand-cream); }
-.custom-navbar .navbar-nav .nav-link.active { color: var(--brand-gold) !important; font-weight: 700 !important; }
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: var(--brand-cream);
+}
+
+/* navigation link */
+.custom-navbar .navbar-nav .nav-link.active {
+    color: var(--brand-gold) !important;
+    font-weight: 700 !important;
+}
 
 /* Tombol Login */
 .btn-outline-gold {
@@ -63,9 +80,12 @@ body {
     border: 1px solid var(--brand-gold);
     font-weight: 600;
 }
-.btn-outline-gold:hover { background-color: var(--brand-gold); color: var(--brand-dark-green); }
+.btn-outline-gold:hover {
+    background-color: var(--brand-gold);
+    color: var(--brand-dark-green);
+}
 
-/* header */
+/* Header */
 .hero-section {
     min-height: 85vh;
     padding-top: 110px;
@@ -75,8 +95,14 @@ body {
     background-size: 28px 28px;
 }
 
-.hero-title { line-height: 1.2; }
-.hero-desc { color: #e0e7e3; font-weight: 300; }
+.hero-title {
+    line-height: 1.2;
+}
+
+.hero-desc {
+    color: #e0e7e3;
+    font-weight: 300;
+}
 
 .badge-tag {
     background-color: rgba(212, 163, 115, 0.2);
@@ -94,7 +120,7 @@ body {
     object-fit: cover;
 }
 
-/* Tentang Kami */
+/* Tentang Kami*/
 .about-green-section {
     background-color: var(--brand-dark-green);
     background-image: radial-gradient(rgba(212, 163, 115, 0.25) 0.75px, transparent 0.75px);
@@ -121,16 +147,28 @@ body {
 }
 
 .about-floating-card {
-    bottom: -20px; right: 15px; z-index: 2;
+    bottom: -20px;
+    right: 15px;
+    z-index: 2;
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
     animation: floatCard 3s ease-in-out infinite alternate;
 }
-@keyframes floatCard { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+
+@keyframes floatCard {
+    from { transform: translateY(0); }
+    to { transform: translateY(-8px); }
+}
 
 .about-floating-icon {
-    width: 42px; height: 42px; border-radius: 10px;
-    background-color: var(--brand-dark-green); color: var(--brand-gold);
-    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: var(--brand-dark-green);
+    color: var(--brand-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
 
 .about-feature-box {
@@ -138,7 +176,11 @@ body {
     border: 1px solid rgba(212, 163, 115, 0.3);
     transition: transform 0.2s ease, background 0.2s ease;
 }
-.about-feature-box:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-2px); }
+
+.about-feature-box:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
 
 /* Filter */
 #filter-tabs {
@@ -244,8 +286,49 @@ body {
     color: var(--brand-dark-green);
 }
 
+/* Review Pelanggan */
+.review-card {
+    background-color: #FAF8F5;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+.review-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--brand-dark-green);
+    color: var(--brand-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* FAQ */
+.custom-accordion .accordion-button:not(.collapsed) {
+    background-color: rgba(212, 163, 115, 0.15);
+    color: var(--brand-dark-green);
+    box-shadow: none;
+}
+.custom-accordion .accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--brand-gold);
+}
+
+/* Lokasi & Jam Operasional */
 .location-section {
     background-color: #FAF8F5;
+}
+
+.badge-pill-subtle {
+    background-color: #F8E8D8;
+    color: #9C6634;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
 }
 
 .section-heading-custom {
@@ -253,11 +336,38 @@ body {
     color: #1B3125;
 }
 
+.info-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+.icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #EFE4D6;
+    color: #4A3319;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.title-text {
+    color: #1B3125;
+}
+
 .extra-small {
     font-size: 0.75rem;
 }
 
-/* Kotak Kode VA */
+/* Kotak Kode Virtual Account & Riwayat Pesanan */
 .va-card-box {
     background: #f8fafc;
     border: 1.5px dashed var(--brand-gold) !important;
@@ -267,35 +377,106 @@ body {
     letter-spacing: 2px;
 }
 
+.history-order-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
 /* Warna badge */
-.bg-danger {
-    background-color: #fee2e2 !important;
-    color: #991b1b !important;
-}
+.bg-danger { background-color: #fee2e2 !important; color: #991b1b !important; }
+.bg-warning { background-color: #fef3c7 !important; color: #92400e !important; }
+.bg-success { background-color: #dcfce7 !important; color: #166534 !important; }
+.bg-info { background-color: #e0f2fe !important; color: #0369a1 !important; }
+.bg-orange { background-color: #ffedd5 !important; color: #c2410c !important; }
+.bg-purple { background-color: #f3e8ff !important; color: #6b21a8 !important; }
+.bg-dark { background-color: #1e293b !important; color: #ffffff !important; }
 
-.bg-warning {
-    background-color: #fef3c7 !important;
-    color: #92400e !important;
-}
-
-.bg-info {
-    background-color: #e0f2fe !important;
-    color: #0369a1 !important;
-}
-
-.bg-success {
-    background-color: #dcfce7 !important;
-    color: #166534 !important;
-}
-
-/* Tombol show dan hide password */
+/* Tombol Show / Hide Password Customer */
 .btn-toggle-pw {
     border-color: #cbd5e1 !important;
     background-color: #f8fafc !important;
     color: #64748b !important;
     font-size: 0.82rem !important;
     font-weight: 700 !important;
+    transition: all 0.2s ease !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
+    user-select: none !important;
+}
+
+.btn-toggle-pw:hover, .btn-toggle-pw:focus {
+    background-color: #e2e8f0 !important;
+    color: var(--brand-dark-green) !important;
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+
+/* footer*/
+.main-footer {
+    background-color: #16281E !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-logo-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid #D4A373;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', serif, -apple-system;
+    letter-spacing: 0.5px;
+}
+
+.text-light-green {
+    color: #A3B8AC;
+}
+
+.footer-desc {
+    line-height: 1.6;
+}
+
+.footer-title {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.footer-links a {
+    color: #A3B8AC;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: #D4A373;
+    transform: translateX(3px);
+}
+
+.social-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.social-btn:hover {
+    background-color: #D4A373;
+    color: #16281E;
+    transform: translateY(-2px);
 }

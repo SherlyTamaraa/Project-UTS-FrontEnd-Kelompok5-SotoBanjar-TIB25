@@ -33,17 +33,12 @@
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
                 </button>
-                <a href="#menu" class="btn btn-gold d-none d-sm-inline-block">Pesan Sekarang</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
 
             <div class="collapse navbar-collapse" id="navMenu">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="#home">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#area-pengiriman">Area Kirim</a></li>
                     <li class="nav-item"><a class="nav-link" href="#review">Ulasan</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
@@ -53,7 +48,7 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Header -->
     <section id="home" class="hero-section text-white d-flex align-items-center">
         <div class="container text-center text-lg-start">
             <div class="row align-items-center gy-5">
@@ -124,6 +119,24 @@
         </div>
     </section>
 
+    <!-- Review / Ulasan Pelanggan -->
+    <section id="review" class="py-5 bg-white border-top border-bottom">
+        <div class="container py-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
+                <div>
+                    <span class="badge badge-pill-subtle text-uppercase px-3 py-2 rounded-pill fw-bold">KATA MEREKA</span>
+                    <h2 class="display-6 fw-bold mt-2 section-heading-custom">Ulasan Pelanggan</h2>
+                    <p class="text-muted small mb-0">Apa kata penikmat setia Soto Banjar Selera Nusantara.</p>
+                </div>
+                <button type="button" class="btn btn-gold px-4 py-2" onclick="handleOpenReviewModal()">
+                    <i class="fa-solid fa-pen-nib me-2"></i> Tulis Ulasan Anda
+                </button>
+            </div>
+
+            <div class="row g-4" id="review-cards-container"></div>
+        </div>
+    </section>
+
     <!-- Tentang Kami -->
     <section id="tentang" class="py-5 about-green-section text-white border-top border-bottom">
         <div class="container py-4">
@@ -184,7 +197,132 @@
         </div>
     </section>
 
-    <!-- Offcanvas Cart Drawer -->
+    <!-- FAQ -->
+    <section id="faq" class="py-5 location-section">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <span class="badge badge-pill-subtle text-uppercase px-3 py-2 rounded-pill fw-bold" id="faq-badge-text">TANYA JAWAB</span>
+                <h2 class="display-6 fw-bold mt-2 section-heading-custom" id="faq-title-text">Pertanyaan Umum (FAQ)</h2>
+                <p class="text-muted small" id="faq-desc-text">Punya pertanyaan seputar cara pesan, pengiriman, dan kualitas soto kami?</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion custom-accordion" id="faqAccordion"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lokasi & Jam Operasional -->
+    <section id="lokasi" class="location-section py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <span class="badge badge-pill-subtle text-uppercase px-3 py-2 rounded-pill fw-bold">KUNJUNGI RUMAH MAKAN</span>
+                <h2 class="display-6 fw-bold mt-2 section-heading-custom">Lokasi & Jam Operasional</h2>
+                <p class="text-muted small">Datang langsung untuk menikmati sajian hangat di tempat yang nyaman dan asri.</p>
+            </div>
+
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-5 d-flex flex-column gap-3 justify-content-between">
+                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
+                        <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1 title-text">Alamat Restoran</h6>
+                            <p class="text-muted small mb-0">Wisma Atlet Tower 3, Kemayoran, Jakarta Pusat</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
+                        <div class="icon-circle"><i class="fa-solid fa-clock"></i></div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-2 title-text">Jam Buka</h6>
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Senin - Jumat:</span>
+                                <span class="fw-semibold text-dark">08.00 - 21.00 WIB</span>
+                            </div>
+                            <div class="d-flex justify-content-between small text-muted">
+                                <span>Sabtu - Minggu:</span>
+                                <span class="fw-semibold text-dark">07.30 - 22.00 WIB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card p-3 p-md-4 shadow-sm rounded-4 border-0 bg-white d-flex align-items-start gap-3">
+                        <div class="icon-circle"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1 title-text">Kontak & Reservasi</h6>
+                            <div class="text-muted small">Telepon/WA: +62 812-3456-7890</div>
+                            <div class="text-muted small">Email: info@sotobanjar-selera.id</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="h-100 rounded-4 shadow-sm overflow-hidden border bg-light" style="min-height: 380px;">
+                        <iframe
+                            src="https://maps.google.com/maps?q=Wisma%20Atlet%20Tower%203%20Kemayoran%20Jakarta%20Pusat&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                            width="100%"
+                            height="100%"
+                            style="border:0; min-height: 380px; width: 100%; display: block;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer py-5 text-white">
+        <div class="container py-2">
+            <div class="row g-4 justify-content-between">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="footer-logo-img">
+                        <h5 class="fw-bold mb-0 text-white font-serif">Soto Banjar Selera</h5>
+                    </div>
+                    <p class="footer-desc small text-light-green mb-0 pe-lg-4">
+                        Menyajikan kehangatan resep asli Kalimantan Selatan dengan kebersihan dan kualitas rasa terbaik.
+                    </p>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="footer-title fw-bold text-uppercase mb-3">Tautan Cepat</h6>
+                    <ul class="list-unstyled footer-links small mb-0 d-flex flex-column gap-2">
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#menu">Daftar Menu</a></li>
+                        <li><a href="#review">Ulasan Pembeli</a></li>
+                        <li><a href="#tentang">Tentang Kami</a></li>
+                        <li><a href="#faq">Tanya Jawab (FAQ)</a></li>
+                        <li><a href="#lokasi">Lokasi & Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6">
+                    <h6 class="footer-title fw-bold text-uppercase mb-3">Jam Layanan</h6>
+                    <div class="small text-light-green">
+                        <p class="mb-1">Senin - Minggu:</p>
+                        <p class="fw-bold text-white mb-2">08:00 - 21:00 WIB</p>
+                        <p class="mb-0 extra-small opacity-75">Menerima Pesanan Catering & Acara</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="footer-title fw-bold text-uppercase mb-3">Ikuti Kami</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Form Pemesanan & Pengiriman -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="cartDrawer" style="width: 480px; max-width: 100vw;">
         <div class="offcanvas-header bg-dark-green text-white">
             <h5 class="offcanvas-title d-flex align-items-center gap-2">
@@ -280,7 +418,7 @@
         </div>
     </div>
 
-    <!-- Struk Pesanan Berhasil -->
+    <!-- Struk Pesanan -->
     <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow rounded-4 overflow-hidden">
@@ -326,9 +464,34 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-dark-green text-white w-100 py-2 fw-semibold" data-bs-dismiss="modal">
-                        Selesai
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-dark w-50 py-2 fw-semibold" onclick="openOrderHistoryModal()" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-clock-rotate-left me-1"></i> Lihat Riwayat
+                        </button>
+                        <button type="button" class="btn btn-dark-green text-white w-50 py-2 fw-semibold" data-bs-dismiss="modal">
+                            Selesai
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Pesanan -->
+    <div class="modal fade" id="orderHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content border-0 shadow rounded-4">
+                <div class="modal-header bg-dark-green text-white">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa-solid fa-clock-rotate-left text-gold me-2"></i> Riwayat Pesanan Saya
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div id="customer-order-history-list" class="d-flex flex-column gap-3"></div>
+                </div>
+                <div class="modal-footer bg-white border-top">
+                    <button type="button" class="btn btn-secondary btn-sm px-4" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -398,6 +561,46 @@
                         <button type="submit" class="btn btn-gold w-100 py-2 fw-bold">Daftar & Buat Akun</button>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Review / Ulasan Baru -->
+    <div class="modal fade" id="addReviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4">
+                <div class="modal-header bg-dark-green text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-star text-gold me-2"></i> Berikan Ulasan Anda</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="form-add-review">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Nama Anda *</label>
+                            <input type="text" id="rev-name" class="form-control" placeholder="Nama Anda" required readonly style="background-color: #f1f5f9;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Asal Kota (Jabodetabek) *</label>
+                            <input type="text" id="rev-city" class="form-control" placeholder="Contoh: Jakarta Barat" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Rating Kepuasan *</label>
+                            <select id="rev-rating" class="form-select" required>
+                                <option value="5">⭐⭐⭐⭐⭐ (5/5) Sangat Puas & Lezat</option>
+                                <option value="4">⭐⭐⭐⭐ (4/5) Enak & Cepat</option>
+                                <option value="3">⭐⭐⭐ (3/5) Cukup Baik</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Ulasan / Komentar *</label>
+                            <textarea id="rev-comment" rows="3" class="form-control" placeholder="Ceritakan rasa kuah, keempukan ayam, atau kecepatan delivery kami..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-gold fw-bold px-4">Kirim Ulasan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
