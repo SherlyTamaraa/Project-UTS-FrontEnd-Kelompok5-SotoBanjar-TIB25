@@ -5,7 +5,7 @@ const ADMIN_CREDENTIALS = {
 
 let uploadedMenuImageBase64 = "";
 
-//Toggle Show Hide Password Admin
+// Toggle Show Hide Password Admin
 window.toggleAdminPasswordVisibility = function() {
     const input = document.getElementById("admin-pass");
     const icon = document.getElementById("eye-icon-admin");
@@ -30,7 +30,7 @@ window.toggleAdminPasswordVisibility = function() {
     }
 };
 
-// 23 menu
+// 23 menu default
 const defaultMenuData = [
     {
         id: 1,
@@ -89,7 +89,7 @@ const defaultMenuData = [
         price: 35000,
         badge: "Authentic",
         badgeColor: "bg-info text-dark",
-        description: "Penyajian praktis khas lokal, nasi putih langsung dicampur di dalam mangkuk kuah sop hangat.",
+        description: "Penyajikan praktis khas lokal, nasi putih langsung dicampur di dalam mangkuk kuah sop hangat.",
         image: "../assets/sop-banjar-nasi-campur.jpeg"
     },
     {
@@ -615,7 +615,7 @@ window.deleteOngkirArea = function(id) {
     }
 };
 
-// Kelola kategori menu
+// Kelola Kategori Menu
 function populateCategoryDropdown(selectedKey = "") {
     const catSelect = document.getElementById("menu-category");
     if (!catSelect) return;
@@ -670,6 +670,8 @@ function renderMenuTable() {
     const tbody = document.getElementById("menu-table-body");
     if (!tbody) return;
     tbody.innerHTML = "";
+
+    menuList = getStoredMenu();
 
     menuList.forEach((item, index) => {
         const foundCat = currentCategories.find(c => c.key === item.category);
@@ -763,15 +765,24 @@ window.deleteMenu = function(id) {
     }
 };
 
-function renderOrderTable(data = orderList) {
+function renderOrderTable(data = null) {
+    orderList = getStoredOrders();
+    const filterEl = document.getElementById("order-filter");
+    const selectedFilter = filterEl ? filterEl.value : "Semua";
+
+    let displayOrders = data;
+    if (!displayOrders) {
+        displayOrders = selectedFilter === "Semua" ? orderList : orderList.filter(o => o.status === selectedFilter);
+    }
+
     const tbody = document.getElementById("order-table-body");
     if (!tbody) return;
     tbody.innerHTML = "";
 
-    if (!data || data.length === 0) {
+    if (!displayOrders || displayOrders.length === 0) {
         tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: var(--text-muted); padding: 35px;">Belum ada pesanan online yang masuk dari customer.</td></tr>';
     } else {
-        data.forEach((order) => {
+        displayOrders.forEach((order) => {
             const orderDate = order.timestamp ? new Date(order.timestamp).toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' }) : "-";
             let itemsHTML = '<ul class="order-items-list">';
             if (Array.isArray(order.items)) {
@@ -798,7 +809,7 @@ function renderOrderTable(data = orderList) {
             const statusBadgeClass = order.status === 'Selesai' ? 'bg-success' : 'bg-warning';
 
             const actionBtn = order.status === 'Diproses'
-                ? '<button class="btn btn-sm btn-primary" onclick="completeOrder(\'' + currentOrderId + '\')"><i class="fa-solid fa-check"></i> Selesaikan</button>'
+                ? '<button class="btn btn-sm btn-primary" onclick="completeOrder(&quot;' + currentOrderId + '&quot;)"><i class="fa-solid fa-check"></i> Selesaikan</button>'
                 : '<i class="fa-solid fa-circle-check text-success fa-lg"></i>';
 
             const tr = document.createElement("tr");
@@ -830,6 +841,7 @@ function renderOrderTable(data = orderList) {
 }
 
 function filterOmsetDashboard() {
+    orderList = getStoredOrders();
     const filterEl = document.getElementById("omset-filter");
     const period = filterEl ? filterEl.value : "semua";
     const now = new Date();
@@ -1024,15 +1036,6 @@ function updateHeroPreview() {
     }
 }
 
-window.resetHeroText = function() {
-    if (confirm("Kembalikan banner header ke pengaturan awal?")) {
-        localStorage.setItem("sotoBanjarHeroContent", JSON.stringify(defaultHeroText));
-        currentHeroText = defaultHeroText;
-        loadHeaderEditorForm();
-        alert("Banner header berhasil direset ke default!");
-    }
-};
-
 // Tentang Kami
 function loadAboutEditorForm() {
     currentAboutContent = getStoredAboutContent();
@@ -1064,6 +1067,32 @@ function loadAboutEditorForm() {
     updateAboutPreview();
 }
 
+function updateAboutPreview() {
+    const badgeVal = document.getElementById("edit-about-badge")?.value || defaultAboutContent.badge;
+    const titleVal = document.getElementById("edit-about-title")?.value || defaultAboutContent.title;
+    const highlightVal = document.getElementById("edit-about-highlight")?.value?.trim() || "";
+    const p1Val = document.getElementById("edit-about-p1")?.value || defaultAboutContent.p1;
+    const p2Val = document.getElementById("edit-about-p2")?.value || defaultAboutContent.p2;
+
+    const feat1TitleVal = document.getElementById("edit-about-feat1-title")?.value || defaultAboutContent.feat1_title;
+    const feat1DescVal = document.getElementById("edit-about-feat1-desc")?.value || defaultAboutContent.feat1_desc;
+    const feat2TitleVal = document.getElementById("edit-about-feat2-title")?.value || defaultAboutContent.feat2_title;
+    const feat2DescVal = document.getElementById("edit-about-feat2-desc")?.value || defaultAboutContent.feat2_desc;
+
+    updateAboutLivePreviewUI({
+        badge: badgeVal,
+        title: titleVal,
+        highlight: highlightVal,
+        p1: p1Val,
+        p2: p2Val,
+        feat1_title: feat1TitleVal,
+        feat1_desc: feat1DescVal,
+        feat2_title: feat2TitleVal,
+        feat2_desc: feat2DescVal,
+        image: currentAboutContent.image
+    });
+}
+
 function updateAboutLivePreviewUI(data) {
     var badgeEl = document.getElementById("preview-about-badge-display");
     var titleEl = document.getElementById("preview-about-title-display");
@@ -1081,8 +1110,6 @@ function updateAboutLivePreviewUI(data) {
     if (titleEl) {
         var t = data.title || "";
         var h = data.highlight ? data.highlight.trim() : "";
-        
-        // Jika kata highlight diisi dan ada di dalam judul, bungkus dengan span warna emas
         if (h && t.toLowerCase().includes(h.toLowerCase())) {
             var regex = new RegExp("(" + h.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
             t = t.replace(regex, '<span class="text-gold">$1</span>');
@@ -1099,15 +1126,6 @@ function updateAboutLivePreviewUI(data) {
     if (f2t) f2t.textContent = data.feat2_title || "";
     if (f2d) f2d.textContent = data.feat2_desc || "";
 }
-
-window.resetAboutText = function() {
-    if (confirm("Kembalikan konten Tentang Kami ke pengaturan awal?")) {
-        localStorage.setItem("sotoBanjarAboutContent", JSON.stringify(defaultAboutContent));
-        currentAboutContent = defaultAboutContent;
-        loadAboutEditorForm();
-        alert("Konten Tentang Kami berhasil direset ke default!");
-    }
-};
 
 // FAQ Admin
 function loadFaqEditorForm() {
@@ -1150,7 +1168,6 @@ function renderAdminFaqTable() {
     });
 }
 
-// Live Preview Sesuai Persis Web Customer
 function updateFaqPreview() {
     const badgeVal = document.getElementById("edit-faq-badge")?.value || currentFaqData.badge || "TANYA JAWAB";
     const titleVal = document.getElementById("edit-faq-title")?.value || currentFaqData.title || "Pertanyaan Umum (FAQ)";
@@ -1193,7 +1210,6 @@ function updateFaqPreview() {
     });
 }
 
-// Klik Buka/Tutup di dalam Mockup Browser
 window.togglePreviewAccordion = function(headerEl) {
     const bodyEl = headerEl.nextElementSibling;
     const chevron = headerEl.querySelector(".preview-mock-chevron");
@@ -1244,15 +1260,6 @@ window.deleteFaq = function(id) {
     }
 };
 
-window.resetFaqText = function() {
-    if (confirm("Kembalikan seluruh konten FAQ ke pengaturan awal default?")) {
-        localStorage.setItem("sotoBanjarFaqContent", JSON.stringify(defaultFaqData));
-        currentFaqData = defaultFaqData;
-        loadFaqEditorForm();
-        alert("FAQ berhasil direset ke default!");
-    }
-};
-
 function renderLoginHistoryTable() {
     const tbody = document.getElementById("login-history-table-body");
     if (!tbody) return;
@@ -1287,10 +1294,7 @@ window.clearLoginHistory = function() {
 };
 
 window.filterOrders = function() {
-    const filterEl = document.getElementById("order-filter");
-    if (!filterEl) return;
-    const selectedFilter = filterEl.value;
-    renderOrderTable(selectedFilter === "Semua" ? orderList : orderList.filter(o => o.status === selectedFilter));
+    renderOrderTable();
 };
 
 window.toggleModal = function(modalId) {
@@ -1322,13 +1326,46 @@ window.toggleModal = function(modalId) {
 
 window.completeOrder = function(orderId) {
     selectedOrderId = orderId;
-    document.getElementById("confirm-order-id").textContent = "#" + orderId;
-    document.getElementById("confirm-order-modal").classList.add("active");
+    const confirmText = document.getElementById("confirm-order-id");
+    if (confirmText) confirmText.textContent = "#" + orderId;
+    const modal = document.getElementById("confirm-order-modal");
+    if (modal) modal.classList.add("active");
 };
 
 window.closeConfirmModal = function() {
     selectedOrderId = null;
-    document.getElementById("confirm-order-modal").classList.remove("active");
+    const modal = document.getElementById("confirm-order-modal");
+    if (modal) modal.classList.remove("active");
+};
+
+// Reset Hero Banner ke Default
+window.resetHeroText = function() {
+    if (confirm("Reset konten Hero Banner ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarHeroContent");
+        currentHeroText = defaultHeroText;
+        loadHeaderEditorForm();
+        alert("Hero Banner berhasil direset ke default!");
+    }
+};
+
+// Reset Tentang Kami ke Default
+window.resetAboutText = function() {
+    if (confirm("Reset konten Tentang Kami ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarAboutContent");
+        currentAboutContent = defaultAboutContent;
+        loadAboutEditorForm();
+        alert("Section Tentang Kami berhasil direset ke default!");
+    }
+};
+
+// Reset FAQ ke Default
+window.resetFaqText = function() {
+    if (confirm("Reset seluruh data FAQ ke pengaturan awal?")) {
+        localStorage.removeItem("sotoBanjarFaqContent");
+        currentFaqData = defaultFaqData;
+        loadFaqEditorForm();
+        alert("FAQ berhasil direset ke default!");
+    }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1577,7 +1614,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // FAQ untuk update judul, deskripsi, dan pertanyaan FAQ ke localStorage dan terubah di preview
     const faqHeaderForm = document.getElementById("faq-header-form");
     if (faqHeaderForm) {
         ["edit-faq-badge", "edit-faq-title", "edit-faq-desc"].forEach(id => {
@@ -1624,16 +1660,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Submit Selesaikan Pesanan
+    // Submit Selesaikan Pesanan (FIXED FUNCTION)
     const btnConfirmSubmit = document.getElementById("btn-confirm-submit");
     if (btnConfirmSubmit) {
         btnConfirmSubmit.addEventListener("click", () => {
             if (selectedOrderId) {
-                const order = orderList.find(o => (o.orderId || o.id) === selectedOrderId);
+                const targetIdStr = String(selectedOrderId).replace(/[^0-9a-zA-Z]/g, "").toUpperCase();
+                
+                orderList = getStoredOrders();
+
+                const order = orderList.find(o => {
+                    const currentIdStr = String(o.orderId || o.id || "").replace(/[^0-9a-zA-Z]/g, "").toUpperCase();
+                    return currentIdStr === targetIdStr || (o.orderId || o.id) == selectedOrderId;
+                });
+
                 if (order) {
                     order.status = "Selesai";
                     localStorage.setItem("sotoBanjarOrders", JSON.stringify(orderList));
-                    filterOrders();
+                    renderOrderTable();
                     filterOmsetDashboard();
                 }
                 closeConfirmModal();
@@ -1645,76 +1689,26 @@ document.addEventListener("DOMContentLoaded", () => {
 // Sinkronisasi Antar Tab Browser
 window.addEventListener("storage", (e) => {
     if (e.key === "sotoBanjarOrders") {
-        orderList = getStoredOrders();
-        filterOrders();
+        renderOrderTable();
         filterOmsetDashboard();
     }
     if (e.key === "sotoBanjarReviews") {
-        reviewList = getStoredReviews();
         renderAdminReviews();
     }
     if (e.key === "sotoBanjarHeroContent") {
-        currentHeroText = getStoredHeroText();
         loadHeaderEditorForm();
     }
     if (e.key === "sotoBanjarAboutContent") {
-        currentAboutContent = getStoredAboutContent();
         loadAboutEditorForm();
     }
     if (e.key === "sotoBanjarFaqContent") {
-        currentFaqData = getStoredFaqData();
         loadFaqEditorForm();
     }
     if (e.key === "sotoBanjarOngkirList") {
-        currentOngkirList = getStoredOngkirList();
         renderOngkirDisplay();
     }
     if (e.key === "sotoBanjarCategories") {
-        currentCategories = getStoredCategories();
         populateCategoryDropdown();
         renderMenuTable();
     }
 });
-
-// Reset Banner Hero ke Default
-window.resetHeroText = function() {
-    if (confirm("Reset konten Hero Banner ke pengaturan awal?")) {
-        localStorage.removeItem("sotoBanjarHeroContent");
-        document.getElementById("edit-hero-badge").value = "Khusus Pesan Online • Area Jabodetabek";
-        document.getElementById("edit-hero-title").value = "Keharuman Rempah Autentik Khas Banjar Langsung ke Rumahmu";
-        document.getElementById("edit-hero-highlight").value = "Khas Banjar";
-        document.getElementById("edit-hero-desc").value = "Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.";
-        document.getElementById("edit-hero-image-url").value = "";
-        document.getElementById("edit-hero-image-file").value = "";
-        alert("Hero Banner berhasil direset ke default!");
-    }
-};
-
-// Reset Tentang Kami ke Default
-window.resetAboutText = function() {
-    if (confirm("Reset konten Tentang Kami ke pengaturan awal?")) {
-        localStorage.removeItem("sotoBanjarAboutContent");
-        document.getElementById("edit-about-badge").value = "FILOSOFI RASA";
-        document.getElementById("edit-about-title").value = "Warisan Cita Rasa Hangat dari Bumi Kalimantan";
-        document.getElementById("edit-about-highlight").value = "Bumi Kalimantan";
-        document.getElementById("edit-about-p1").value = "Soto Banjar Selera Nusantara berakar dari kecintaan kami melestarikan kuliner legendaris khas Banjarmasin...";
-        document.getElementById("edit-about-p2").value = "Kami hanya menggunakan 100% ayam kampung segar yang menghasilkan kaldu gurih alami tanpa bahan pengawet...";
-        document.getElementById("edit-about-feat1-title").value = "Ayam Kampung Asli";
-        document.getElementById("edit-about-feat1-desc").value = "Daging manis alami berpadu kaldu gurih kaya nutrisi rempah.";
-        document.getElementById("edit-about-feat2-title").value = "Jeruk Kuit Segar";
-        document.getElementById("edit-about-feat2-desc").value = "Aroma sitrus khas Banjar yang autentik dan menyegarkan.";
-        document.getElementById("edit-about-image-url").value = "";
-        document.getElementById("edit-about-image-file").value = "";
-        alert("Section Tentang Kami berhasil direset ke default!");
-    }
-};
-
-// Reset FAQ ke Default
-window.resetFaqText = function() {
-    if (confirm("Reset seluruh data FAQ ke pengaturan awal?")) {
-        localStorage.removeItem("sotoBanjarFaqContent");
-        // Memuat ulang data default ke form & preview
-        loadAdminFaqSection(); 
-        alert("FAQ berhasil direset ke default!");
-    }
-};

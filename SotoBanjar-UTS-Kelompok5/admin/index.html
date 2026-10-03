@@ -20,7 +20,6 @@
                 <span class="banner-badge">
                     <i class="fa-solid fa-lock"></i> Area Khusus Pengelola
                 </span>
-                <!-- Logo samping kiri -->
                 <div class="login-brand-wrapper">
                     <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="admin-login-logo">
                     <div class="login-brand-text">
@@ -50,7 +49,6 @@
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock input-icon-left"></i>
                             <input type="password" id="admin-pass" class="login-input" placeholder="Masukkan kata sandi" required>
-                            <!-- Tombol Show / Hide Password -->
                             <button type="button" class="btn-toggle-pw-admin" onclick="toggleAdminPasswordVisibility()" title="Show / Hide Password">
                                 <i class="fa-regular fa-eye" id="eye-icon-admin"></i>
                                 <span id="eye-text-admin">Show</span>
@@ -81,7 +79,6 @@
     <div class="admin-wrapper d-none" id="admin-main-wrapper">
         <aside class="sidebar">
             <div class="brand-logo">
-                <!-- Logo di Sidebar Navigasi Admin -->
                 <img src="../assets/logo.jpeg" alt="Logo Soto Banjar" class="sidebar-logo-img">
                 <div class="brand-text">
                     <span class="brand-name">Soto Banjar</span>
@@ -252,7 +249,7 @@
                 </div>
             </section>
 
-            <!-- Rincian Omset & Daftar Pemesan -->
+            <!-- Rincian Omset -->
             <section id="laporan-omset" class="tab-content">
                 <div class="content-section p-4">
                     <div class="section-header mb-3 flex-wrap gap-3">
@@ -304,7 +301,7 @@
                 </div>
             </section>
 
-            <!-- Kelola Ulasan & Balasan Review -->
+            <!-- Kelola Ulasan -->
             <section id="kelola-review" class="tab-content">
                 <div class="content-section p-4">
                     <div class="section-header">
@@ -417,7 +414,7 @@
                                         <label class="form-label-custom mb-2"><i class="fa-solid fa-camera text-primary me-1"></i> Ganti Gambar Banner Hero</label>
                                         <div class="mb-2">
                                             <small class="text-muted d-block mb-1">Opsi 1: Tempel Link URL Gambar Web</small>
-                                            <input type="url" id="edit-hero-image-url" class="form-input-custom" placeholder="Masukkan Link URL G">
+                                            <input type="url" id="edit-hero-image-url" class="form-input-custom" placeholder="Masukkan Link URL">
                                         </div>
                                         <div>
                                             <small class="text-muted d-block mb-1">Opsi 2: Atau Upload Foto dari Laptop / HP</small>
@@ -529,7 +526,7 @@
                                     </div>
                                     <div class="form-group text-start mb-0">
                                         <label class="form-label-custom">
-                                            <i class="fa-solid fa-highlighter text-warning me-1"></i> Kata yang di higllight (Cokelat / Emas)
+                                            <i class="fa-solid fa-highlighter text-warning me-1"></i> Kata yang di highlight (Cokelat / Emas)
                                         </label>
                                         <input type="text" id="edit-about-highlight" class="form-input-custom" placeholder="Contoh: Bumi Kalimantan" value="Bumi Kalimantan">
                                     </div>
@@ -729,7 +726,7 @@
         </main>
     </div>
 
-    <!--Form Tambah atau Edit Menu -->
+    <!-- Modal Tambah / Edit Menu -->
     <div class="modal-overlay" id="add-menu-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -756,7 +753,6 @@
                 <div class="form-group">
                     <label for="menu-category">Kategori Menu *</label>
                     <select id="menu-category" required onchange="handleCategorySelectChange()">
-                        <!-- Diisi otomatis di localStorage -->
                     </select>
                     <div id="new-category-wrapper" class="mt-2 d-none">
                         <input type="text" id="new-category-name" class="form-input-custom" placeholder="Ketik nama kategori baru (cth: Paket Hemat)">
@@ -809,7 +805,7 @@
         </div>
     </div>
 
-    <!--Form Tambah atau Edit Item FAQ -->
+    <!-- Modal FAQ -->
     <div class="modal-overlay" id="faq-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -834,7 +830,7 @@
         </div>
     </div>
 
-    <!--Form Kelola Daerah Ongkir -->
+    <!-- Modal Kelola Ongkir -->
     <div class="modal-overlay" id="edit-ongkir-modal">
         <div class="modal-box" style="max-width: 580px;">
             <div class="modal-header">
@@ -884,12 +880,12 @@
     <!-- Konfirmasi Selesai Pesanan -->
     <div class="modal-overlay" id="confirm-order-modal">
         <div class="modal-box text-center">
-            <div class="confirm-icon">
+            <div class="confirm-icon" style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 12px;">
                 <i class="fa-solid fa-circle-question"></i>
             </div>
             <h3>Konfirmasi Pengantaran</h3>
-            <p>Tandai pesanan <strong id="confirm-order-id">ORD-000</strong> sebagai sudah selesai diantar?</p>
-            <div class="modal-actions-center">
+            <p>Tandai pesanan <strong id="confirm-order-id">#SBN-000000</strong> sebagai sudah selesai diantar?</p>
+            <div class="modal-actions-center" style="display: flex; justify-content: center; gap: 12px; margin-top: 20px;">
                 <button type="button" class="btn btn-outline" onclick="closeConfirmModal()">Batal</button>
                 <button type="button" class="btn btn-primary" id="btn-confirm-submit">Ya, Selesaikan</button>
             </div>
