@@ -429,7 +429,6 @@ body {
     color: #1B3125;
 }
 
-/* Badge Colors */
 .badge {
     padding: 5px 12px;
     border-radius: 20px;
@@ -1230,7 +1229,6 @@ body {
     color: #ffffff;
 }
 
-/* logo */
 .login-brand-wrapper {
     display: flex !important;
     align-items: center !important;
