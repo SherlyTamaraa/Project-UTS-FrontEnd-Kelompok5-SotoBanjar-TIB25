@@ -283,7 +283,7 @@ const defaultHeroText = {
     title: "Keharuman Rempah Autentik Khas Banjar Langsung ke Rumahmu",
     highlight: "Khas Banjar",
     desc: "Pesan Soto Banjar hangat kaldu ayam kampung murni berpadu kayu manis, kapulaga, cengkeh, dan bunga lawang khas Kalimantan Selatan. Dikemas higienis, anti tumpah, dan cepat sampai tujuan.",
-    image: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNmDPq35j7k_bAcMWmz87aFD8PprC6KmNFglZv-4CG-CSVIvFJg-u3tLQ&s=10"
 };
 
 const defaultAboutContent = {
@@ -296,7 +296,7 @@ const defaultAboutContent = {
     feat1_desc: "Daging manis alami berpadu kaldu gurih kaya nutrisi rempah.",
     feat2_title: "Jeruk Kuit Segar",
     feat2_desc: "Aroma sitrus khas Banjar yang autentik dan menyegarkan.",
-    image: "../assets/header.jpg"
+    image: "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/b42b1a1c-1a5d-4d99-b08b-370f32207094_Go-Food-Merchant_20251205_131816.jpeg"
 };
 
 const defaultFaqData = {
@@ -1033,7 +1033,7 @@ window.resetHeroText = function() {
     }
 };
 
-// Tentanng Kami
+// Tentang Kami
 function loadAboutEditorForm() {
     currentAboutContent = getStoredAboutContent();
     const badgeInput = document.getElementById("edit-about-badge");
@@ -1064,50 +1064,40 @@ function loadAboutEditorForm() {
     updateAboutPreview();
 }
 
-function updateAboutPreview() {
-    const badgeVal = document.getElementById("edit-about-badge")?.value || defaultAboutContent.badge;
-    const titleVal = document.getElementById("edit-about-title")?.value || defaultAboutContent.title;
-    const highlightVal = document.getElementById("edit-about-highlight")?.value?.trim() || "";
-    const p1Val = document.getElementById("edit-about-p1")?.value || defaultAboutContent.p1;
-    const p2Val = document.getElementById("edit-about-p2")?.value || defaultAboutContent.p2;
+function updateAboutLivePreviewUI(data) {
+    var badgeEl = document.getElementById("preview-about-badge-display");
+    var titleEl = document.getElementById("preview-about-title-display");
+    var p1El = document.getElementById("preview-about-p1-display");
+    var p2El = document.getElementById("preview-about-p2-display");
+    var imgEl = document.getElementById("preview-about-img-display");
 
-    const feat1TitleVal = document.getElementById("edit-about-feat1-title")?.value || currentAboutContent.feat1_title || defaultAboutContent.feat1_title;
-    const feat1DescVal = document.getElementById("edit-about-feat1-desc")?.value || currentAboutContent.feat1_desc || defaultAboutContent.feat1_desc;
-    const feat2TitleVal = document.getElementById("edit-about-feat2-title")?.value || currentAboutContent.feat2_title || defaultAboutContent.feat2_title;
-    const feat2DescVal = document.getElementById("edit-about-feat2-desc")?.value || currentAboutContent.feat2_desc || defaultAboutContent.feat2_desc;
+    var f1t = document.getElementById("preview-about-feat1-title");
+    var f1d = document.getElementById("preview-about-feat1-desc");
+    var f2t = document.getElementById("preview-about-feat2-title");
+    var f2d = document.getElementById("preview-about-feat2-desc");
 
-    const imgPreview = document.getElementById("preview-about-img-display");
-    const previewBadge = document.getElementById("preview-about-badge-display");
-    const previewTitle = document.getElementById("preview-about-title-display");
-    const previewP1 = document.getElementById("preview-about-p1-display");
-    const previewP2 = document.getElementById("preview-about-p2-display");
-
-    const previewFeat1Title = document.getElementById("preview-about-feat1-title");
-    const previewFeat1Desc = document.getElementById("preview-about-feat1-desc");
-    const previewFeat2Title = document.getElementById("preview-about-feat2-title");
-    const previewFeat2Desc = document.getElementById("preview-about-feat2-desc");
-
-    if (previewBadge) previewBadge.textContent = badgeVal;
-
-    if (previewTitle) {
-        let formatted = titleVal;
-        if (highlightVal && formatted.includes(highlightVal)) {
-            formatted = formatted.replace(highlightVal, `<span class="text-gold">${highlightVal}</span>`);
+    if (badgeEl) badgeEl.textContent = data.badge || "FILOSOFI RASA";
+    
+    if (titleEl) {
+        var t = data.title || "";
+        var h = data.highlight ? data.highlight.trim() : "";
+        
+        // Jika kata highlight diisi dan ada di dalam judul, bungkus dengan span warna emas
+        if (h && t.toLowerCase().includes(h.toLowerCase())) {
+            var regex = new RegExp("(" + h.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
+            t = t.replace(regex, '<span class="text-gold">$1</span>');
         }
-        previewTitle.innerHTML = formatted;
+        titleEl.innerHTML = t;
     }
 
-    if (previewP1) previewP1.textContent = p1Val;
-    if (previewP2) previewP2.textContent = p2Val;
+    if (p1El) p1El.textContent = data.p1 || "";
+    if (p2El) p2El.textContent = data.p2 || "";
+    if (imgEl && data.image) imgEl.src = data.image;
 
-    if (previewFeat1Title) previewFeat1Title.textContent = feat1TitleVal;
-    if (previewFeat1Desc) previewFeat1Desc.textContent = feat1DescVal;
-    if (previewFeat2Title) previewFeat2Title.textContent = feat2TitleVal;
-    if (previewFeat2Desc) previewFeat2Desc.textContent = feat2DescVal;
-
-    if (imgPreview && currentAboutContent.image) {
-        imgPreview.src = currentAboutContent.image;
-    }
+    if (f1t) f1t.textContent = data.feat1_title || "";
+    if (f1d) f1d.textContent = data.feat1_desc || "";
+    if (f2t) f2t.textContent = data.feat2_title || "";
+    if (f2d) f2d.textContent = data.feat2_desc || "";
 }
 
 window.resetAboutText = function() {
@@ -1587,7 +1577,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Submit FAQ untuk update judul, deskripsi, dan pertanyaan FAQ ke localStorage dan terubah di preview
+    // FAQ untuk update judul, deskripsi, dan pertanyaan FAQ ke localStorage dan terubah di preview
     const faqHeaderForm = document.getElementById("faq-header-form");
     if (faqHeaderForm) {
         ["edit-faq-badge", "edit-faq-title", "edit-faq-desc"].forEach(id => {
